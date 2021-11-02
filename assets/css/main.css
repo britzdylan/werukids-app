@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'Balsamiq-Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('~assets/fonts/BalsamiqSans-Bold.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Bold.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Balsamiq-Sans';
+  font-style: Italic;
+  font-weight: 700;
+  src: url('~assets/fonts/BalsamiqSans-BoldItalic.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-BoldItalic.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Balsamiq-Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('~assets/fonts/BalsamiqSans-Regular.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Regular.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Balsamiq-Sans';
+  font-style: Italic;
+  font-weight: 500;
+  src: url('~assets/fonts/BalsamiqSans-Italic.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Italic.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Balsamiq-Sans';
+  font-style: Italic;
+  font-weight: 500;
+  src: url('~assets/fonts/BalsamiqSans-Italic.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Italic.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  src: url('~assets/fonts/Poppins-Regular.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/Poppins-Regular.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  src: url('~assets/fonts/Poppins-SemiBold.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/Poppins-SemiBold.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  src: url('~assets/fonts/Poppins-Bold.ttf'); /* IE9 Compat Modes */
+  src: local(''),
+    /* Modern Browsers */ url('~assets/fonts/Poppins-Bold.ttf')
+      format('truetype');
+}
