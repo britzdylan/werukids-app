@@ -77,3 +77,142 @@
     /* Modern Browsers */ url('~assets/fonts/Poppins-Bold.ttf')
       format('truetype');
 }
+
+/* ======================== base ======================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-title;
+}
+
+h1 {
+  @apply text-5xl;
+}
+
+h2 {
+  @apply text-4xl;
+}
+
+h3 {
+  @apply text-3xl;
+}
+
+h4 {
+  @apply text-2xl;
+}
+
+h5 {
+  @apply text-xl;
+}
+
+h6 {
+  @apply text-lg;
+}
+
+html {
+  @apply text-base text-body;
+}
+
+body {
+  @apply bg-background;
+}
+/* ============================ buttons ==================*/
+
+.btn {
+  @apply text-base  rounded-full text-title h-16 font-medium transition duration-300 ease-in-out w-full lg:w-48 my-2;
+}
+
+.btn.primary {
+  @apply bg-primary text-white;
+}
+
+.btn.primary.action {
+  filter: drop-shadow(0px 5px 0px #186594);
+}
+
+.btn.primary:hover {
+  @apply bg-primaryDark text-offwhite;
+}
+
+.btn:disabled {
+  @apply pointer-events-none bg-opacity-50 opacity-60;
+}
+
+.btn.loading {
+  @apply flex flex-row items-center justify-center pointer-events-none;
+}
+
+.btn.outline {
+  @apply border-2 border-primary;
+}
+
+.btn.outline:hover {
+  @apply border-2 border-primaryDark;
+}
+
+/* =============================Inputs==================================== */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.input {
+  @apply my-4 block;
+}
+.input > div {
+  @apply bg-inputBg rounded-lg  w-full lg:w-80 flex flex-row items-center justify-center pr-2;
+}
+
+.input > div > svg {
+  @apply h-6 w-6 text-label stroke-current;
+}
+
+.input.disabled > div {
+  @apply pointer-events-none bg-opacity-60 opacity-60;
+}
+
+label {
+  @apply block text-sm text-label font-medium mb-1;
+}
+
+input {
+  @apply focus:outline-none w-full py-3 px-6 bg-inputBg rounded-lg appearance-none;
+  caret-color: #186594;
+}
+
+input::placeholder {
+  @apply text-placeholder;
+}
+
+input:focus {
+  @apply bg-offwhite ring-2 ring-title;
+}
+
+input:disabled {
+  @apply pointer-events-none bg-opacity-60 opacity-60;
+}
+
+.input > small {
+  @apply block mt-1;
+}
+
+textarea {
+  @apply w-full bg-inputBg rounded-lg py-3 px-6;
+  resize: none;
+}
+
+textarea:focus {
+  @apply bg-offwhite ring-2 ring-title;
+}
