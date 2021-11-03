@@ -1,0 +1,13 @@
+<template>
+  <div class="h-full">
+    <mobileHeader />
+    <Nuxt />
+    <mobileNav />
+  </div>
+</template>
+<script>
+export default {
+  auth: true,
+}
+</script>
+<style lang=""></style>

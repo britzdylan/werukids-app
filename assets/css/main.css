@@ -79,6 +79,14 @@
 }
 
 /* ======================== base ======================== */
+body {
+  height: 100%;
+}
+
+#__nuxt,
+#__layout {
+  height: 100%;
+}
 
 h1,
 h2,
@@ -115,6 +123,7 @@ h6 {
 
 html {
   @apply text-base text-body;
+  height: 100%;
 }
 
 body {
