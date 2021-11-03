@@ -29,6 +29,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: "~/plugins/vee-validate" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,11 +55,31 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      name: "Werukids - Learning made fun",
+      short_name: "Werukids",
+      lang: "en",
+      orientation: "portrait",
+      mobileApp: true,
+      mobileAppIOS: true,
+      appleStatusBarStyle: "black",
+      nativeUI: true,
+      themeColor: "#FC8741",
+      display: "standalone"
+    },
+    meta: {},
+    icon: {
+      fileName: "icon.png",
+      size: 192
+    },
+    workbox: {
+      cleanupOutdatedCaches: true,
+      offline: false
     }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ["vee-validate/dist/rules"],
+    publicPath: "/nuxt/"
   }
 }
