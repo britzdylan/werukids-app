@@ -4,7 +4,7 @@
       <img class="w-12 h-12" src="/avatars/Girl 1.svg" alt="" />
     </div>
     <h3>Werukids</h3>
-    <div>
+    <div @click="() => this.$auth.logout">
       <img class="w-6 h-6" src="/icons/Logout.svg" alt="" />
     </div>
   </header>

@@ -1,5 +1,6 @@
 <template>
   <div class="h-full">
+    <mobileMenu />
     <mobileHeader />
     <Nuxt />
     <mobileNav />
