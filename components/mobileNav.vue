@@ -60,7 +60,7 @@
         </svg>
       </div>
     </router-link>
-    <div class="mobileNavItem" id="menu">
+    <div @click="this.toggleMenu" class="mobileNavItem" id="menu">
       <svg
         width="32"
         height="32"
@@ -93,6 +93,11 @@ export default {
       activeStroke: '#9A8032',
       idle: '#8FB6E9',
     }
+  },
+  methods: {
+    toggleMenu() {
+      this.$emit('toggleMenuNav')
+    },
   },
   computed: {
     currentRoute() {

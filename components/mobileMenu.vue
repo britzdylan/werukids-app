@@ -1,7 +1,8 @@
 <template>
-  <aside v-show="false" id="mobileMenu">
+  <aside v-show="this.showMenu" id="mobileMenu">
     <header>
       <svg
+        @click="toggleMenu"
         width="32"
         height="32"
         viewBox="0 0 32 32"
@@ -41,6 +42,15 @@
 <script>
 export default {
   name: 'mobileMenu',
+  props: ['showMenu'],
+  data() {
+    return {}
+  },
+  methods: {
+    toggleMenu() {
+      this.$emit('closeMenu')
+    },
+  },
 }
 </script>
 <style scoped>
@@ -48,8 +58,7 @@ header {
   @apply flex flex-row justify-end;
 }
 #mobileMenu {
-  @apply absolute top-0 left-0 right-0 bottom-0 bg-secondary flex flex-col justify-start p-4;
-  z-index: 99;
+  @apply absolute top-0 left-0 right-0 bottom-0 bg-secondary flex flex-col justify-start p-4 z-50;
 }
 
 a {

@@ -178,10 +178,10 @@ input[type='number'] {
 }
 
 .input {
-  @apply my-4 block;
+  @apply my-4 block w-full lg:w-80;
 }
 .input > div {
-  @apply bg-inputBg rounded-lg  w-full lg:w-80 flex flex-row items-center justify-center pr-2;
+  @apply bg-inputBg rounded-lg  w-full flex flex-row items-center justify-center pr-2;
 }
 
 .input > div > svg {
@@ -205,9 +205,9 @@ input::placeholder {
   @apply text-placeholder;
 }
 
-input:focus {
-  @apply bg-offwhite ring-2 ring-title;
-}
+/* input:focus {
+  @apply bg-offwhite;
+} */
 
 input:disabled {
   @apply pointer-events-none bg-opacity-60 opacity-60;
@@ -218,10 +218,6 @@ input:disabled {
 }
 
 textarea {
-  @apply w-full bg-inputBg rounded-lg py-3 px-6;
+  @apply focus:outline-none w-full bg-inputBg rounded-lg py-3 px-6;
   resize: none;
-}
-
-textarea:focus {
-  @apply bg-offwhite ring-2 ring-title;
 }
