@@ -1,8 +1,9 @@
 <template>
   <aside v-show="this.showMenu" id="mobileMenu">
+    <rate @toggleRating="toggleRating" :showRating="this.showRating" />
     <header>
       <svg
-        @click="toggleMenu"
+        @click="this.toggleMenu"
         width="32"
         height="32"
         viewBox="0 0 32 32"
@@ -25,9 +26,11 @@
         />
       </svg>
     </header>
-    <h1 class="font-display text-center">WERUKIDS</h1>
+    <div>
+      <img class="h-8 mx-auto" src="/logo/dark.svg" alt="" />
+    </div>
     <div class="flex-grow flex flex-col justify-center">
-      <h3 class="">Rate Us</h3>
+      <h3 class="" @click="() => (this.showRating = true)">Rate Us</h3>
       <h3 class="">Help</h3>
       <h3 class="">About werukids</h3>
       <h3 class="">Share</h3>
@@ -44,11 +47,16 @@ export default {
   name: 'mobileMenu',
   props: ['showMenu'],
   data() {
-    return {}
+    return {
+      showRating: false,
+    }
   },
   methods: {
     toggleMenu() {
       this.$emit('closeMenu')
+    },
+    toggleRating() {
+      this.showRating = !this.showRating
     },
   },
 }
