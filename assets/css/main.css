@@ -133,7 +133,7 @@ body {
 /* ============================ buttons ==================*/
 
 .btn {
-  @apply text-base  rounded-full text-title h-16 font-medium transition duration-300 ease-in-out w-full lg:w-48 my-2;
+  @apply text-base  rounded-full text-title h-16 font-medium transition duration-300 ease-in-out w-full lg:w-96 my-2;
 }
 
 .btn.primary {
@@ -179,7 +179,7 @@ input[type='number'] {
 }
 
 .input {
-  @apply my-4 block w-full lg:w-80;
+  @apply my-4 block w-full;
 }
 .input > div {
   @apply bg-inputBg rounded-lg  w-full flex flex-row items-center justify-center pr-2;
@@ -198,7 +198,7 @@ label {
 }
 
 input {
-  @apply focus:outline-none w-full py-3 px-6 bg-inputBg rounded-lg appearance-none;
+  @apply focus:outline-none w-full py-4 px-6 bg-inputBg rounded-lg appearance-none;
   caret-color: #186594;
 }
 
@@ -221,4 +221,28 @@ input:disabled {
 textarea {
   @apply focus:outline-none w-full bg-inputBg rounded-lg py-3 px-6;
   resize: none;
+}
+
+/* ============== sub pages */
+.subpage {
+  @apply h-full flex flex-col;
+}
+.subpage > header {
+  @apply h-20 bg-offwhite flex flex-row items-center justify-between px-4 py-6 sticky top-0;
+}
+
+.subpage > header > p {
+  @apply text-lg mx-auto capitalize;
+}
+
+.subpage > footer {
+  @apply h-20 w-full flex flex-col mt-0 fixed lg:static bottom-0 px-4 py-0 bg-background;
+}
+
+.subpage > footer > button {
+  @apply mx-auto;
+}
+
+.subpage > section {
+  @apply px-4 pt-12 pb-24 lg:pb-0  mb-12 max-w-2xl w-full mx-auto;
 }
