@@ -861,35 +861,5 @@ export default {
 }
 </script>
 <style>
-.ageBlock {
-  @apply w-20 h-16 rounded-lg text-3xl font-display bg-inputBg flex flex-row items-center justify-center text-primary;
-}
 
-.ageSelected {
-  @apply text-primaryLight w-20 h-16 rounded-lg text-3xl font-display bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center;
-}
-
-.ageContainer {
-  @apply w-full grid grid-cols-3 lg:grid-cols-6 gap-4 justify-items-center;
-}
-
-.avatarContainer {
-  @apply w-full grid grid-cols-3 gap-4 justify-items-center mt-16;
-}
-
-.avatar {
-  @apply w-20 h-20 opacity-30;
-}
-
-.selectedAvatar {
-  @apply w-20 h-20 opacity-100;
-}
-
-.lang {
-  @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4 font-display bg-inputBg flex flex-row items-center justify-center text-primary;
-}
-
-.langSelected {
-  @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4 font-display bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center text-primary;
-}
 </style>
