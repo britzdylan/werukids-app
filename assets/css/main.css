@@ -225,7 +225,7 @@ textarea {
 
 /* ============== sub pages */
 .subpage {
-  @apply h-full flex flex-col;
+  @apply flex flex-col;
 }
 .subpage > header {
   @apply h-20 bg-offwhite flex flex-row items-center justify-between px-4 py-6 sticky top-0;

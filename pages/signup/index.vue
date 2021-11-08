@@ -801,13 +801,52 @@ export default {
       this.$refs[form].reset()
     },
     async nextStep() {
-      const validated = await this.$refs.email.validate()
+      let validated
+      switch (this.step) {
+        case 1:
+          validated = await this.$refs.email.validate()
 
-      if (!validated) {
-        return false
+          if (!validated) {
+            return false
+          }
+          break
+        case 2:
+          validated = await this.$refs.code.validate()
+
+          if (!validated) {
+            return false
+          }
+          break
+        case 3:
+          validated = await this.$refs.addPassword.validate()
+
+          if (!validated) {
+            return false
+          }
+          break
+        case 4:
+          validated = await this.$refs.names.validate()
+
+          if (!validated) {
+            return false
+          }
+          break
+        case 5:
+          validated = await this.$refs.child.validate()
+
+          if (!validated) {
+            return false
+          }
+          break
+        case 6:
+          break
+        case 7:
+          break
+        case 8:
+          break
+        case 9:
+          break
       }
-
-      alert('valid')
     },
     setSelectedAge(age) {
       this.selectedAge = age
