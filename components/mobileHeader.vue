@@ -1,7 +1,7 @@
 <template>
   <header class="mobileHeader">
-    <div class="avatar">
-      <img class="w-12 h-12" src="/avatars/Girl 1.svg" alt="" />
+    <div class="">
+      <img class="w-12 h-12" src="/avatars/girl_1.svg" alt="" />
     </div>
     <div>
       <img class="h-6" src="/logo/main.svg" alt="" />
