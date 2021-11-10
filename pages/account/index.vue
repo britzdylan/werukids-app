@@ -10,7 +10,12 @@
         <p class="font-medium">britzdylan@gmail.com</p>
         <small class="text-line">Joined July 1st 2016</small>
       </div>
-      <img src="/icons/Edit.svg" class="h-8" alt="" />
+      <img
+        @click="() => this.$router.push('/account/update')"
+        src="/icons/Edit.svg"
+        class="h-8"
+        alt=""
+      />
     </div>
     <section class="subscriptionWrapper">
       <header class="flex flex-row items-center justify-start">
@@ -35,7 +40,7 @@
         </p>
       </div>
     </section>
-    <section class="paymentDetailsWrapper">
+    <section class="paymentDetailsWrapper lg:order-last">
       <header class="flex flex-row items-center justify-start">
         <h2 class="mr-auto text-lg">Payment Details</h2>
         <span class="flex flex-row items-center"
@@ -80,9 +85,9 @@
     </section>
     <section class="extraLinks">
       <router-link to="/account/transactions">Transaction History</router-link>
-      <router-link to="/account/transactions">Delete My Account</router-link>
-      <router-link to="/account/transactions">Export my data</router-link>
-      <router-link to="/account/transactions"
+      <router-link to="/account/delete">Delete My Account</router-link>
+      <router-link to="/account/export">Export my data</router-link>
+      <router-link to="/account/notifications"
         >Notification preferences</router-link
       >
     </section>

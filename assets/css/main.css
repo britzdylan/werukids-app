@@ -236,7 +236,7 @@ textarea {
 }
 
 .subpage > footer {
-  @apply h-20 w-full flex flex-col mt-0 fixed lg:static bottom-0 px-4 py-0 bg-background;
+  @apply w-full flex flex-col mt-0 fixed lg:static bottom-0 px-4 py-0 bg-background;
 }
 
 .subpage > footer > button {
@@ -279,4 +279,61 @@ textarea {
 
 .langSelected {
   @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4 font-display bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center text-primary;
+}
+
+/* Checkbox */
+
+.checkboxContainer {
+  @apply h-8 relative cursor-pointer flex flex-row items-center my-4 lg:text-center w-96 mx-auto;
+
+  padding-left: 35px;
+  margin-bottom: 12px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  @apply bg-inputBg h-8 w-8 absolute top-0 left-0 rounded-full mr-4;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxContainer input:checked ~ .checkmark {
+  @apply bg-secondary;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxContainer .checkmark:after {
+  left: 12px;
+  top: 6px;
+
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  @apply border-secondaryDark h-4 w-2;
 }

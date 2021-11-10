@@ -18,7 +18,7 @@ export default {
 </script>
 <style>
 .mobileHeader {
-  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0;
+  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0 z-40;
 }
 
 .avatar {
