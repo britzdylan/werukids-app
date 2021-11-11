@@ -1,7 +1,9 @@
 <template>
   <div class="h-full">
-    <mobileMenu @closeMenu="this.toggleMenu" :showMenu="this.showMenu" />
+    <rate v-show="this.popup == 'rate'" />
+    <mobileMenu v-show="this.menu == 'true'" />
     <mobileHeader />
+    <desktopNav />
     <Nuxt />
     <mobileNav @toggleMenuNav="this.toggleMenu" />
   </div>
@@ -13,6 +15,14 @@ export default {
     return {
       showMenu: false,
     }
+  },
+  computed: {
+    popup() {
+      return this.$route.query.popup
+    },
+    menu() {
+      return this.$route.query.menu
+    },
   },
   methods: {
     toggleMenu() {

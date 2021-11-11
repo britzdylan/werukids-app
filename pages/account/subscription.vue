@@ -3,7 +3,7 @@
     <header>
       <img
         @click="() => this.$router.go(-1)"
-        class="h-6 w-6"
+        class="h-6 w-6 cursor-pointer"
         src="/icons/Back.svg"
         alt=""
       />

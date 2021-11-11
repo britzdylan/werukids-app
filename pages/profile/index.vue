@@ -1,7 +1,12 @@
 <template>
   <main class="subpage">
     <header>
-      <img @click="this.goBack" class="h-6 w-6" src="/icons/Back.svg" alt="" />
+      <img
+        @click="this.goBack"
+        class="h-6 w-6 cursor-pointer"
+        src="/icons/Back.svg"
+        alt=""
+      />
       <p v-show="this.step == 0">Switch profile</p>
 
       <p class="capatilize" v-show="this.step > 0">

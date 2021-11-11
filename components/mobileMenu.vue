@@ -1,9 +1,8 @@
 <template>
-  <aside v-show="this.showMenu" id="mobileMenu">
-    <rate @toggleRating="toggleRating" :showRating="this.showRating" />
+  <aside id="mobileMenu">
     <header>
       <svg
-        @click="this.toggleMenu"
+        @click="() => this.$router.replace(this.$route.path)"
         width="32"
         height="32"
         viewBox="0 0 32 32"
@@ -30,7 +29,12 @@
       <img class="h-8 mx-auto" src="/logo/dark.svg" alt="" />
     </div>
     <div class="flex-grow flex flex-col justify-center">
-      <h3 class="" @click="() => (this.showRating = true)">Rate Us</h3>
+      <h3
+        class=""
+        @click="() => this.$router.push(`${this.$route.path}?popup=rate`)"
+      >
+        Rate Us
+      </h3>
       <h3 class="">Help</h3>
       <h3 class="">About werukids</h3>
       <h3 class="">Share</h3>
@@ -45,20 +49,14 @@
 <script>
 export default {
   name: 'mobileMenu',
-  props: ['showMenu'],
+
   data() {
     return {
       showRating: false,
     }
   },
-  methods: {
-    toggleMenu() {
-      this.$emit('closeMenu')
-    },
-    toggleRating() {
-      this.showRating = !this.showRating
-    },
-  },
+  computed: {},
+  methods: {},
 }
 </script>
 <style scoped>
@@ -66,7 +64,7 @@ header {
   @apply flex flex-row justify-end;
 }
 #mobileMenu {
-  @apply fixed top-0 left-0 right-0 bottom-0 bg-secondary flex flex-col justify-start p-4 z-50;
+  @apply fixed top-0 left-0 right-0 bottom-0 bg-secondary flex flex-col justify-start p-4 z-30;
 }
 
 a {

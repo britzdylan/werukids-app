@@ -1,7 +1,12 @@
 <template>
   <main class="subpage">
     <header v-if="this.step < 9">
-      <img @click="this.goBack" class="h-6 w-6" src="/icons/Back.svg" alt="" />
+      <img
+        @click="this.goBack"
+        class="h-6 w-6 cursor-pointer"
+        src="/icons/Back.svg"
+        alt=""
+      />
 
       <p>Sign Up</p>
     </header>
@@ -860,6 +865,4 @@ export default {
   },
 }
 </script>
-<style>
-
-</style>
+<style></style>

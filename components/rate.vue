@@ -1,20 +1,24 @@
 <template>
   <section
-    v-show="this.showRating"
+    style="z-index: 99"
     class="
-      absolute
+      fixed
       bottom-0
       top-0
       left-0
       right-0
       bg-opacity-80
       backdrop-filter backdrop-blur-lg
-      bg-offwhite
+      bg-primaryLight
+      z-70
+      md:flex
+      flex-row
     "
   >
     <div
       class="
         text-center
+        md:w-1/2 md:static md:my-auto md:mx-auto
         absolute
         bottom-1
         right-1
@@ -22,12 +26,15 @@
         rounded-lg
         bg-offwhite
         p-2
+        z-90
+        shadow-lg
+        md:p-8
       "
     >
       <header class="flex flex-row items-center justify-center">
         <svg
-          @click="() => this.$emit('toggleRating')"
-          class="ml-auto"
+          @click="() => this.$router.replace(this.$route.path)"
+          class="ml-auto cursor-pointer"
           width="32"
           height="32"
           viewBox="0 0 32 32"

@@ -13,7 +13,7 @@
       <img
         @click="() => this.$router.push('/account/update')"
         src="/icons/Edit.svg"
-        class="h-8"
+        class="h-8 cursor-pointer"
         alt=""
       />
     </div>
@@ -30,7 +30,7 @@
         <img
           @click="() => this.$router.push('/account/subscription')"
           src="/icons/Edit.svg"
-          class="absolute top-1 right-1"
+          class="absolute top-1 right-1 cursor-pointer"
           alt=""
         />
         <p class="leading-none">
@@ -58,7 +58,7 @@
         <img
           @click="() => this.$router.push('/account/billing')"
           src="/icons/Edit.svg"
-          class="absolute top-1 right-1"
+          class="absolute top-1 right-1 cursor-pointer"
           alt=""
         />
         <div class="mb-4">

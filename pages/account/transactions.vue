@@ -1,7 +1,12 @@
 <template>
   <main class="subpage">
     <header>
-      <img @click="this.goBack" class="h-6 w-6" src="/icons/Back.svg" alt="" />
+      <img
+        @click="this.goBack"
+        class="h-6 w-6 cursor-pointer"
+        src="/icons/Back.svg"
+        alt=""
+      />
 
       <p>Transaction History</p>
     </header>
@@ -27,7 +32,6 @@
         <img src="/icons/Export.svg" alt="" />
       </div>
     </section>
-    
   </main>
 </template>
 <script>

@@ -60,7 +60,11 @@
         </svg>
       </div>
     </router-link>
-    <div @click="this.toggleMenu" class="mobileNavItem" id="menu">
+    <div
+      @click="() => this.$router.replace(`${this.$route.path}?menu=true`)"
+      class="mobileNavItem"
+      id="menu"
+    >
       <svg
         width="32"
         height="32"
@@ -94,11 +98,7 @@ export default {
       idle: '#8FB6E9',
     }
   },
-  methods: {
-    toggleMenu() {
-      this.$emit('toggleMenuNav')
-    },
-  },
+  methods: {},
   computed: {
     currentRoute() {
       return this.$route.name
@@ -108,7 +108,7 @@ export default {
 </script>
 <style>
 #mobileNav {
-  @apply flex flex-row justify-between items-center w-full lg:hidden bg-offwhite px-4 py-0 h-16 fixed bottom-0;
+  @apply flex flex-row justify-between items-center w-full lg:hidden bg-offwhite px-4 py-0 h-16 fixed bottom-0 z-10;
 }
 
 #mobileNav a {

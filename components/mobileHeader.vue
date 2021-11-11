@@ -1,6 +1,6 @@
 <template>
   <header class="mobileHeader">
-    <div class="">
+    <div @click="() => this.$router.push('/profile')" class="">
       <img class="w-12 h-12" src="/avatars/girl_1.svg" alt="" />
     </div>
     <div>
@@ -18,7 +18,7 @@ export default {
 </script>
 <style>
 .mobileHeader {
-  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0 z-40;
+  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0 z-20;
 }
 
 .avatar {

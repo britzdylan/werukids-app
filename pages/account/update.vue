@@ -1,7 +1,12 @@
 <template>
   <main class="subpage">
     <header>
-      <img @click="this.goBack" class="h-6 w-6" src="/icons/Back.svg" alt="" />
+      <img
+        @click="this.goBack"
+        class="h-6 w-6 cursor-pointer"
+        src="/icons/Back.svg"
+        alt=""
+      />
 
       <p>Update Account</p>
     </header>
@@ -94,7 +99,7 @@ export default {
   data() {
     return {
       loading: false,
-   
+
       first_name: 'Dylan',
       last_name: 'Britz',
     }
