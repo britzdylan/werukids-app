@@ -228,7 +228,7 @@ textarea {
   @apply flex flex-col;
 }
 .subpage > header {
-  @apply h-20 bg-offwhite flex flex-row items-center justify-between px-4 py-6 sticky top-0;
+  @apply h-20 bg-offwhite flex flex-row items-center justify-between px-4 py-6 sticky top-0 z-20;
 }
 
 .subpage > header > p {
@@ -236,15 +236,15 @@ textarea {
 }
 
 .subpage > footer {
-  @apply w-full flex flex-col mt-0 fixed lg:static bottom-0 px-4 py-0 bg-background;
+  @apply w-full flex flex-col lg:justify-center lg:flex-row-reverse mt-0 fixed lg:static bottom-0 px-4 py-0 bg-background;
 }
 
 .subpage > footer > button {
-  @apply mx-auto;
+  @apply mx-auto lg:mx-10;
 }
 
 .subpage > section {
-  @apply px-4 pt-12 pb-24 lg:pb-0  mb-12 max-w-2xl w-full mx-auto;
+  @apply px-4 pt-12 pb-32 lg:pb-0  mb-12 max-w-2xl w-full mx-auto;
 }
 
 /* =======================================Profile====================================== */

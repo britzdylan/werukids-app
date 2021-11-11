@@ -27,7 +27,12 @@
       </header>
 
       <div class="subscription">
-        <img src="/icons/Edit.svg" class="absolute top-1 right-1" alt="" />
+        <img
+          @click="() => this.$router.push('/account/subscription')"
+          src="/icons/Edit.svg"
+          class="absolute top-1 right-1"
+          alt=""
+        />
         <p class="leading-none">
           <span
             style="padding: 1px"
@@ -50,7 +55,12 @@
       </header>
 
       <div class="subscription">
-        <img src="/icons/Edit.svg" class="absolute top-1 right-1" alt="" />
+        <img
+          @click="() => this.$router.push('/account/billing')"
+          src="/icons/Edit.svg"
+          class="absolute top-1 right-1"
+          alt=""
+        />
         <div class="mb-4">
           <small class="text-placeholder mb-2 block">Cardholder Name</small>
           <div class="flex flex-row items-center">

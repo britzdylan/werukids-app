@@ -24,7 +24,7 @@
         </svg>
       </div>
     </router-link>
-    <router-link to="/learn">
+    <router-link to="/account">
       <div class="mobileNavItem" id="learn">
         <svg
           width="32"

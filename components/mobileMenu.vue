@@ -66,7 +66,7 @@ header {
   @apply flex flex-row justify-end;
 }
 #mobileMenu {
-  @apply absolute top-0 left-0 right-0 bottom-0 bg-secondary flex flex-col justify-start p-4 z-50;
+  @apply fixed top-0 left-0 right-0 bottom-0 bg-secondary flex flex-col justify-start p-4 z-50;
 }
 
 a {
