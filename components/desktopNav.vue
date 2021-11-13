@@ -18,7 +18,7 @@
       >
         Parents
       </router-link>
-      <span class="relative">
+      <span v-click-outside="hideMenu" class="relative">
         <p
           :class="this.showMenu ? 'activeLink' : ''"
           @click="this.toggleMenu"
@@ -63,6 +63,9 @@ export default {
     },
   },
   methods: {
+    hideMenu() {
+      this.showMenu = false
+    },
     toggleMenu() {
       this.showMenu = !this.showMenu
     },

@@ -337,3 +337,13 @@ textarea {
   transform: rotate(45deg);
   @apply border-secondaryDark h-4 w-2;
 }
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hideScrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
