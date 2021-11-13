@@ -68,7 +68,7 @@
         </div>
         <button
           @click="applyFilters"
-          style="margin-top: auto"
+          style="margin-top: auto; min-height: 4rem"
           class="btn bg-secondary mt-auto mx-auto"
         >
           Apply
@@ -169,7 +169,7 @@ export default {
   name: 'readBrowse',
   data() {
     return {
-      showFilter: true,
+      showFilter: false,
       showMyBooks: false,
       filters: [
         'English',
@@ -215,7 +215,7 @@ export default {
       this.showFilter = false
     },
     goBack() {
-      this.$router.go(-1)
+      this.$router.replace('/')
     },
     toggleMyBooks() {
       this.showMyBooks = !this.showMyBooks
