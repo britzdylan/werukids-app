@@ -5,7 +5,12 @@
 </template>
 <script>
 export default {
-  auth: true,
+  middleware: ['auth'],
+  mounted() {
+    if (!this.$auth.loggedIn) {
+      this.$router.replace('/login')
+    }
+  },
 }
 </script>
 <style lang=""></style>

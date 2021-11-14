@@ -35,6 +35,13 @@
           </span>
         </ValidationProvider>
       </ValidationObserver>
+      <button
+        class="btn"
+        v-show="this.accountExists"
+        @click="() => this.$router.replace('/login')"
+      >
+        Your Account already exists, Please Login
+      </button>
     </section>
     <!-- ================================verify email================================= -->
     <section v-show="this.step == 2">
@@ -62,6 +69,7 @@
           </span>
         </ValidationProvider>
       </ValidationObserver>
+      <button class="btn" @click="this.resendCode">Resend Code</button>
     </section>
     <!-- ================================choose password ================================= -->
     <section v-show="this.step == 3">
@@ -246,7 +254,9 @@
     </section>
     <!-- ================================avatar================================= -->
     <section v-show="this.step == 6">
-      <p class="text-center">Please choose an avatar , for Adeena</p>
+      <p class="text-center">
+        Please choose an avatar , for {{ this.childs_name }}
+      </p>
       <div class="avatarContainer">
         <template v-for="item in avatars">
           <div
@@ -262,7 +272,7 @@
     <!-- ================================language================================= -->
     <section v-show="this.step == 7">
       <p class="text-center">
-        Please Choose a primary language preference for Adeena
+        Please Choose a primary language preference for {{ this.childs_name }}
       </p>
       <div class="">
         <template v-for="item in lang">
@@ -752,7 +762,31 @@
       </div>
     </div>
     <footer v-if="this.step < 9">
-      <button @click="nextStep" class="btn primary">Next</button>
+      <button v-show="!this.loading" @click="nextStep" class="btn primary">
+        Next
+      </button>
+      <button v-show="this.loading" class="btn primary loading">
+        <svg
+          class="animate-spin h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </button>
     </footer>
   </main>
 </template>
@@ -761,12 +795,14 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {
   layout: 'public',
+
   components: {
     ValidationProvider,
     ValidationObserver,
   },
   data() {
     return {
+      loading: false,
       email: '',
       code: null,
       password: '',
@@ -775,7 +811,7 @@ export default {
       showPassword: false,
       childs_name: '',
       step: 1,
-      age: [1, 2, 3, 4, 5, 6],
+      age: [1, 2, 3, 4, 5, 6, 7, 8],
       avatars: [
         'boy_1',
         'boy_2',
@@ -789,10 +825,15 @@ export default {
       selectedLang: 'english',
       selectedAge: 0,
       selectedAvatar: '',
+      accountExists: false,
+      terms_agreement_date: null,
     }
   },
   methods: {
     goBack() {
+      if (this.loading) {
+        return
+      }
       if (this.step > 1) {
         this.step = this.step - 1
       } else {
@@ -814,12 +855,68 @@ export default {
           if (!validated) {
             return false
           }
+          try {
+            this.loading = true
+            const account = await this.$store.dispatch('user/createAccount', {
+              email: this.email,
+            })
+            console.log(account)
+
+            if (!account.email_verified) {
+              this.step = 2
+            }
+
+            if (account.email_verified && !account.account_finalized) {
+              this.step = 3
+            }
+
+            if (
+              account.email_verified &&
+              account.account_finalized &&
+              account.profiles.length < 1
+            ) {
+              this.firstname = account.first_name
+              this.lastname = account.last_name
+              this.step = 4
+            }
+
+            if (
+              account.email_verified &&
+              account.account_finalized &&
+              account.profiles.length > 0
+            ) {
+              this.accountExists = true
+            }
+            // this.step = 2
+            this.loading = false
+          } catch (error) {
+            this.loading = false
+            console.log(error.response)
+            window.alertify.error(error.response.data)
+          }
+
           break
         case 2:
           validated = await this.$refs.code.validate()
 
           if (!validated) {
             return false
+          }
+          try {
+            this.loading = true
+            let code = await this.$store.dispatch('user/verifyCode', {
+              email: this.email,
+              code: this.code,
+            })
+
+            if (code instanceof Error) throw new Error(code)
+            this.step = 3
+            window.alertify.success('Email successfully verified')
+            this.loading = false
+          } catch (error) {
+            this.loading = false
+            console.log(error.response)
+            window.alertify.error(error.response.data)
           }
           break
         case 3:
@@ -828,6 +925,25 @@ export default {
           if (!validated) {
             return false
           }
+
+          try {
+            this.loading = true
+            const updatePass = await this.$store.dispatch(
+              'user/updatePassword',
+              {
+                email: this.email,
+                password: this.password,
+              }
+            )
+            if (updatePass instanceof Error) throw new Error(updatePass)
+            this.step = 4
+            this.loading = false
+            // window.alertify.success('Password successfully added')
+          } catch (error) {
+            this.loading = false
+            console.log(error.response)
+            window.alertify.error(error.response.data)
+          }
           break
         case 4:
           validated = await this.$refs.names.validate()
@@ -835,6 +951,7 @@ export default {
           if (!validated) {
             return false
           }
+          this.step = 5
           break
         case 5:
           validated = await this.$refs.child.validate()
@@ -842,12 +959,54 @@ export default {
           if (!validated) {
             return false
           }
+          this.step = 6
           break
         case 6:
+          if (this.selectedAvatar == '') {
+            window.alertify.error('Please select an avatar')
+            return
+          }
+          this.step = 7
           break
         case 7:
+          if (this.selectedLang == '') {
+            window.alertify.error('Please select a language')
+            return
+          }
+          this.step = 8
           break
         case 8:
+          // this.terms_agreement_date = new Date.toISOString()
+          this.loading = true
+          const today = new Date()
+          console.log(today.toISOString(), '//////TODAY')
+          const payload = {
+            email: this.email,
+            first_name: this.firstname,
+            last_name: this.lastname,
+            profiles: [
+              {
+                name: this.childs_name,
+                age: Number(this.selectedAge),
+                avatar: this.selectedAvatar,
+                primary_language: this.selectedLang,
+              },
+            ],
+            terms_agreed_date: today.toISOString(),
+            terms_version: '2021-11-14T15:12:45.793Z',
+          }
+          try {
+            const res = await this.$store.dispatch('user/signUp', payload)
+
+            if (res instanceof Error) throw new Error(res)
+            this.step = 9
+            window.alertify.success('Signed up successfully')
+            this.loading = false
+          } catch (error) {
+            console.log(error.response)
+            window.alertify.error(error.response.data)
+            this.loading = false
+          }
           break
         case 9:
           break
@@ -862,7 +1021,23 @@ export default {
     setSelectedLang(item) {
       this.selectedLang = item
     },
+    async resendCode() {
+      this.loading = true
+      try {
+        await this.$store.dispatch('user/sendCode', { email: this.email })
+        this.loading = false
+      } catch (error) {
+        console.log(error.response)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
   },
 }
+
+// TODO Fetch terms and conditions from strapi
+// TODO Fetch language from DB
+// TODO login user after successful signup
 </script>
+
 <style></style>

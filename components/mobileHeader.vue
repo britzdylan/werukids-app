@@ -6,7 +6,7 @@
     <div>
       <img class="h-6" src="/logo/main.svg" alt="" />
     </div>
-    <div @click="() => this.$auth.logout">
+    <div @click="this.logout">
       <img class="w-6 h-6" src="/icons/Logout.svg" alt="" />
     </div>
   </header>
@@ -14,6 +14,11 @@
 <script>
 export default {
   name: 'mobileHeader',
+  methods: {
+    async logout() {
+      await this.$auth.logout()
+    },
+  },
 }
 </script>
 <style>

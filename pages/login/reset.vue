@@ -200,6 +200,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 export default {
   layout: 'public',
+ 
   components: {
     ValidationProvider,
     ValidationObserver,

@@ -145,7 +145,35 @@
         >
       </ValidationObserver>
     </div>
-    <button class="btn primary mx-auto block mb-6">Sign In</button>
+    <button
+      v-show="!this.loading"
+      @click="this.signin"
+      class="btn primary mx-auto block mb-6"
+    >
+      Sign In
+    </button>
+    <button v-show="this.loading" class="btn primary loading">
+      <svg
+        class="animate-spin h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+    </button>
 
     <router-link to="/welcome" class="text-center mt-8"
       >Don't have an account? Sign up instead</router-link
@@ -156,6 +184,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 export default {
   layout: 'public',
+
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -178,6 +207,25 @@ export default {
       this.showPassword = !this.showPassword
     },
     nextStep() {},
+    async signin() {
+      this.loading = true
+      const login = {
+        email: this.email,
+        password: this.password,
+      }
+      console.log(login)
+      try {
+        let res = await this.$auth.loginWith('local', { data: login })
+        if (res instanceof Error) throw new Error(res)
+        window.alertify.success('Logged in successfully')
+        this.loading = false
+        this.$router.replace('/')
+      } catch (error) {
+        console.log(error)
+        // window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
   },
 }
 </script>

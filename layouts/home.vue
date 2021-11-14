@@ -10,7 +10,11 @@
 </template>
 <script>
 export default {
-  auth: true,
+  mounted() {
+    if (!this.$auth.loggedIn) {
+      this.$router.replace('/login')
+    }
+  },
   data() {
     return {
       showMenu: false,

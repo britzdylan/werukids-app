@@ -1,0 +1,161 @@
+/* ================================================================================
+  ALERTS
+  ======================================================================== */
+.alertify {
+  z-index: 900;
+  position: relative;
+}
+
+.alertify .ajs-dimmer {
+  opacity: 1;
+  z-index: 10200;
+  background: rgb(245 245 245 / 70%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.alertify .ajs-dialog {
+  border-radius: 0.5em;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.alertify .ajs-modal {
+  z-index: 10300;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ajs-button {
+  background: #f1f1f1;
+  border: none;
+  font-size: 0.9em;
+  border-radius: 20px;
+  outline: none !important;
+}
+
+.ajs-button.ajs-ok {
+  background: #2f485c;
+  color: #fff;
+}
+
+.alertify .ajs-footer {
+  background: transparent;
+}
+
+.ajs-header,
+.ajs-commands {
+  display: none;
+}
+
+.alertify .ajs-body .ajs-content {
+  padding: 0px;
+}
+
+.alertify-notifier.ajs-top {
+  top: 0px;
+}
+
+.alertify-notifier .ajs-message {
+  width: 101vw;
+  text-align: center;
+  padding: 0.6em 0.5em !important;
+  border-radius: 0em;
+  margin-top: 0px !important;
+  transition-timing-function: cubic-bezier(0.01, 0.72, 0.25, 0.99) !important;
+  margin-bottom: 0px;
+  background: #333;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 0px 10px 5px rgb(0 0 0 / 20%);
+  text-shadow: none !important;
+  line-height: 1.1em;
+}
+
+.alertify-notifier .ajs-message.ajs-success {
+  background: #00c58e;
+}
+
+.alertify .ajs-dialog,
+.alertify .ajs-footer {
+  background: #fafafa;
+  border-radius: 0.5em !important;
+  border: none !important;
+  margin: 0 auto;
+  min-width: auto;
+  max-width: initial;
+  padding: 0.5em;
+}
+
+.alertify .ajs-footer {
+  padding: 0 1em 0.4em !important;
+  text-align: center;
+}
+
+.alertify .ajs-footer .ajs-buttons {
+  text-align: center !important;
+}
+
+.alertify .ajs-footer .ajs-button {
+  background: transparent;
+  border-radius: 0.6em;
+  color: #333;
+  border: none;
+  font-weight: bold;
+  padding: 0.9em 2em;
+}
+
+.alertify .ajs-footer .ajs-button.ajs-ok {
+  color: #fff;
+  background-color: #fc8741;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+  background: linear-gradient(
+    60deg,
+    rgba(253, 105, 63, 1) 0%,
+    rgba(250, 164, 66, 1) 100%
+  );
+}
+
+.alertify .ajs-content {
+  padding: 0.5em !important;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.2;
+}
+
+.alertify .ajs-commands {
+  display: none;
+}
+
+.alertify .ajs-content p {
+  font-weight: bold;
+}
+
+.alertify .ajs-content .ajs-input {
+  width: 100%;
+  border-width: 1px;
+  --border-opacity: 1;
+  border-color: #edf2f7;
+  border-radius: 0.375rem;
+  position: relative;
+  --bg-opacity: 1;
+  background-color: #fff;
+  margin: 0.4em 0;
+  padding: 0.5em 0.75rem;
+  font-weight: bold;
+}
+
+.alertify .ajs-content .ajs-input:focus {
+}
+
+.alertify .ajs-header {
+  display: none;
+}
+
+.alertify .ajs-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
