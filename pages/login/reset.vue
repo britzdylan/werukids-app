@@ -200,7 +200,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 export default {
   layout: 'public',
- 
+
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -229,7 +229,85 @@ export default {
     togglePassword() {
       this.showPassword = !this.showPassword
     },
-    nextStep() {},
+    async nextStep() {
+      let validated
+      switch (this.step) {
+        case 1:
+          validated = this.$refs.email.validate()
+          if (!validated) {
+            return false
+          }
+          this.requestReset()
+          break
+        case 2:
+          validated = this.$refs.code.validate()
+          if (!validated) {
+            return false
+          }
+          this.validateCode()
+          break
+        case 3:
+          validated = this.$refs.addPassword.validate()
+          if (!validated) {
+            return false
+          }
+          this.updatePassword()
+        default:
+          break
+      }
+    },
+    async requestReset() {
+      this.loading = true
+      try {
+        const res = await this.$store.dispatch('user/reset', {
+          email: this.email,
+        })
+
+        if (res instanceof Error) throw new Error(res)
+        this.step = 2
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
+    async validateCode() {
+      this.loading = true
+      try {
+        const res = await this.$store.dispatch('user/verifyCode', {
+          email: this.email,
+          code: this.code,
+        })
+
+        if (res instanceof Error) throw new Error(res)
+        window.alertify.success('Email successfully verified')
+        this.step = 3
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
+    async updatePassword() {
+      this.loading = true
+      try {
+        const res = await this.$store.dispatch('user/updatePassword', {
+          email: this.email,
+          password: this.password,
+        })
+
+        if (res instanceof Error) throw new Error(res)
+        window.alertify.success('Password successfully updated')
+        this.$router.replace('/login')
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
   },
 }
 </script>

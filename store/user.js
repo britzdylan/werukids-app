@@ -33,4 +33,9 @@ export const actions = {
       return res.data
     })
   },
+  async reset(context, payload) {
+    return await this.$axios.post(`/auth/reset`, payload).then((res) => {
+      return res.data
+    })
+  },
 }

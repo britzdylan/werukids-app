@@ -1,5 +1,5 @@
 <template>
-  <header class="desktopHeader">
+  <header v-if="this.currentProfile != null" class="desktopHeader">
     <div class="mr-auto">
       <img class="h-6" src="/logo/main.svg" alt="" />
     </div>
@@ -42,7 +42,11 @@
     </nav>
     <div class="ml-auto flex flex-row items-center">
       <div @click="() => this.$router.push('/profile')" class="mr-8">
-        <img class="w-12 h-12" src="/avatars/girl_1.svg" alt="" />
+        <img
+          class="w-12 h-12"
+          :src="`/avatars/${this.currentProfile.avatar}.svg`"
+          alt=""
+        />
       </div>
 
       <div @click="() => this.$auth.logout">
@@ -53,6 +57,8 @@
 </template>
 <script>
 export default {
+  props: ['currentProfile'],
+
   name: 'desktopNav',
   data() {
     return { showMenu: false }

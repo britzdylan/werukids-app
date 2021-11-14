@@ -2,8 +2,8 @@
   <div class="h-full">
     <rate v-show="this.popup == 'rate'" />
     <mobileMenu v-show="this.menu == 'true'" />
-    <mobileHeader />
-    <desktopNav />
+    <mobileHeader :currentProfile="currentProfile" />
+    <desktopNav :currentProfile="currentProfile" />
     <Nuxt />
     <mobileNav @toggleMenuNav="this.toggleMenu" />
   </div>
@@ -14,6 +14,7 @@ export default {
     if (!this.$auth.loggedIn) {
       this.$router.replace('/login')
     }
+    this.getUser()
   },
   data() {
     return {
@@ -27,10 +28,23 @@ export default {
     menu() {
       return this.$route.query.menu
     },
+    currentProfile() {
+      return this.$store.getters['profile/getCurrentProfile']
+    },
   },
   methods: {
     toggleMenu() {
       this.showMenu = !this.showMenu
+    },
+    async getUser() {
+      try {
+        const res = this.$store.dispatch('profile/getUser')
+        if (res instanceof Error) throw new Error(res)
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
     },
   },
 }

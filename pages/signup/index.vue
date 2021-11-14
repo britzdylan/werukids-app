@@ -811,7 +811,7 @@ export default {
       showPassword: false,
       childs_name: '',
       step: 1,
-      age: [1, 2, 3, 4, 5, 6, 7, 8],
+      age: ['1', '2', '3', '4', '5', '6', '7', '8+'],
       avatars: [
         'boy_1',
         'boy_2',
@@ -987,7 +987,7 @@ export default {
             profiles: [
               {
                 name: this.childs_name,
-                age: Number(this.selectedAge),
+                age: this.selectedAge,
                 avatar: this.selectedAvatar,
                 primary_language: this.selectedLang,
               },

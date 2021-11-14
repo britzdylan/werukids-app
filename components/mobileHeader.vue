@@ -1,7 +1,11 @@
 <template>
-  <header class="mobileHeader">
+  <header v-if="this.currentProfile != null" class="mobileHeader">
     <div @click="() => this.$router.push('/profile')" class="">
-      <img class="w-12 h-12" src="/avatars/girl_1.svg" alt="" />
+      <img
+        class="w-12 h-12"
+        :src="`/avatars/${this.currentProfile.avatar}.svg`"
+        alt=""
+      />
     </div>
     <div>
       <img class="h-6" src="/logo/main.svg" alt="" />
@@ -13,7 +17,9 @@
 </template>
 <script>
 export default {
+  props: ['currentProfile'],
   name: 'mobileHeader',
+  computed: {},
   methods: {
     async logout() {
       await this.$auth.logout()

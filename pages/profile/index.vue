@@ -1,5 +1,5 @@
 <template>
-  <main class="subpage">
+  <main v-if="this.profiles.length > 0" class="subpage">
     <header>
       <img
         @click="this.goBack"
@@ -18,17 +18,37 @@
         class="w-80 grid grid-cols-2 gap-y-8 justify-items-center mt-16 mx-auto"
       >
         <template v-for="item in profiles">
-          <div :key="'profile_' + item" class="selectedAvatar w-64 relative">
+          <div
+            :key="'profile_' + item._id"
+            class="selectedAvatar w-full relative"
+          >
             <img
               v-show="showEdit"
               src="/icons/Edit.svg"
               class="h-6 w-6 absolute top-0 right-0 cursor-pointer"
               alt=""
-              @click="editProfile"
+              @click="editProfile(item)"
             />
-            <img :src="`/avatars/${item}.svg`" alt="" />
+            <img :src="`/avatars/${item.avatar}.svg`" alt="" />
+            <p class="text-center">{{ item.name }}</p>
           </div>
         </template>
+        <div
+          @click="this.addProfile"
+          v-if="this.profiles.length < 5"
+          class="
+            h-6
+            w-6
+            border-dashed border-2 border-primaryLight
+            rounded-full
+            flex flex-row
+            items-center
+            justify-center
+            selectedAvatar
+          "
+        >
+          <img class="w-4 h-4 m-auto" src="/icons/Plus.svg" alt="" />
+        </div>
       </div>
     </section>
     <section v-show="this.step == 1">
@@ -72,7 +92,7 @@
     </section>
     <section v-show="this.step == 2">
       <p class="text-center">
-        Please Choose a primary language preference for Adeena
+        Please Choose a primary language preference for {{ this.childs_name }}
       </p>
       <div class="">
         <template v-for="item in lang">
@@ -87,7 +107,9 @@
       </div>
     </section>
     <section v-show="this.step == 3">
-      <p class="text-center">Please choose an avatar, for Adeena</p>
+      <p class="text-center">
+        Please choose an avatar, for {{ this.childs_name }}
+      </p>
       <div class="avatarContainer">
         <template v-for="item in avatars">
           <div
@@ -109,7 +131,7 @@
         Next
       </button>
       <button
-        v-if="this.step == 3"
+        v-show="this.step == 3 && !this.loading"
         @click="this.addUpdateProfile"
         class="btn primary"
       >
@@ -129,6 +151,28 @@
       >
         Cancel
       </button>
+      <button v-show="this.loading" class="btn primary loading">
+        <svg
+          class="animate-spin h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </button>
     </footer>
   </main>
 </template>
@@ -144,7 +188,7 @@ export default {
       context: 'Add',
       step: 0,
       childs_name: '',
-      age: [1, 2, 3, 4, 5, 6],
+      age: ['1', '2', '3', '4', '5', '6', '7', '8+'],
       avatars: [
         'boy_1',
         'boy_2',
@@ -154,17 +198,28 @@ export default {
         'girl_3',
         'girl_4',
       ],
-      profiles: ['boy_1', 'girl_3', 'girl_4'],
+      // profiles: ['boy_1', 'girl_3', 'girl_4'],
       lang: ['english', 'afrikaans', 'zulu', 'venda'],
       selectedLang: '',
-      selectedAge: 0,
+      selectedAge: null,
       selectedAvatar: '',
+      profileId: null,
       showEdit: false,
+      loading: false,
     }
   },
+  computed: {
+    profiles() {
+      return this.$store.getters['profile/getAllProfiles']
+    },
+  },
   methods: {
+    addProfile() {
+      this.context = 'Add'
+      this.step = 1
+    },
     goBack() {
-      if (this.step > 1) {
+      if (this.step > 0) {
         this.step = this.step - 1
       } else {
         this.$router.replace('/')
@@ -180,25 +235,32 @@ export default {
       let validated
       switch (this.step) {
         case 1:
-          validated = await this.$refs.email.validate()
+          validated = await this.$refs.child.validate()
 
           if (!validated) {
             return false
           }
+          if (this.selectedAge == null || !this.selectedAge) {
+            window.alertify.error('Please choose an age')
+            return
+          }
+          this.step++
           break
         case 2:
-          validated = await this.$refs.code.validate()
-
-          if (!validated) {
-            return false
+          if (this.selectedLang == null || !this.selectedLang) {
+            window.alertify.error('Please choose language')
+            return
           }
+          this.step++
+
           break
         case 3:
-          validated = await this.$refs.addPassword.validate()
-
-          if (!validated) {
-            return false
+          if (this.selectedAvatar == null || !this.selectedAvatar) {
+            window.alertify.error('Please choose an avatar')
+            return
           }
+          this.step++
+
           break
         case 4:
           validated = await this.$refs.names.validate()
@@ -225,18 +287,67 @@ export default {
     setSelectedLang(item) {
       this.selectedLang = item
     },
-    async editProfile(id) {
-      try {
-        return true
-        // fetch profile
-        // update state
-        // move to next step
-      } catch (error) {
-        console.log(error)
-      }
+    async editProfile(item) {
+      this.selectedAvatar = item.avatar
+      this.selectedAge = item.age
+      this.childs_name = item.name
+      this.context = 'Edit'
+      this.step = 1
+      this.profileId = item._id
+    },
+    async resetLocalState() {
+      this.selectedLang = ''
+      this.selectedAge = null
+      this.selectedAvatar = ''
+      this.profileId = null
     },
     async addUpdateProfile() {
-      return true
+      this.loading = true
+      const payload = {
+        profile: {
+          name: this.childs_name,
+          age: this.selectedAge,
+          avatar: this.selectedAvatar,
+        },
+      }
+      if (this.context == 'Add') {
+        try {
+          let res = await this.$store.dispatch('profile/addNewProfile', payload)
+          if (res instanceof Error) throw new Error(res)
+          res = this.$store.dispatch('profile/getUser')
+          if (res instanceof Error) throw new Error(res)
+          this.resetLocalState()
+          await this.$auth.fetchUser()
+          window.alertify.success('Profile successfully added')
+          this.loading = false
+          this.step = 0
+        } catch (error) {
+          console.log(error)
+          window.alertify.error(error.response.data)
+          this.loading = false
+        }
+      }
+
+      if (this.context == 'Edit') {
+        try {
+          let res = await this.$store.dispatch('profile/updateProfile', {
+            id: '',
+            data: payload,
+          })
+          if (res instanceof Error) throw new Error(res)
+          res = this.$store.dispatch('profile/getUser')
+          if (res instanceof Error) throw new Error(res)
+          this.resetLocalState()
+          await this.$auth.fetchUser()
+          window.alertify.success('Profile successfully updated')
+          this.loading = false
+          this.step = 0
+        } catch (error) {
+          console.log(error)
+          window.alertify.error(error.response.data)
+          this.loading = false
+        }
+      }
     },
   },
 }
