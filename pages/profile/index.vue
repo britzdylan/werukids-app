@@ -12,6 +12,15 @@
       <p class="capatilize" v-show="this.step > 0">
         {{ this.context }} profile
       </p>
+      <img
+        v-if="
+          this.context == 'Edit' && this.step > 0 && this.profiles.length > 1
+        "
+        @click="this.delete"
+        class="h-6 w-6 cursor-pointer"
+        src="/icons/Delete.svg"
+        alt=""
+      />
     </header>
     <section class="" v-show="this.step == 0">
       <div
@@ -29,7 +38,11 @@
               alt=""
               @click="editProfile(item)"
             />
-            <img :src="`/avatars/${item.avatar}.svg`" alt="" />
+            <img
+              @click="switchProfile(item)"
+              :src="`/avatars/${item.avatar}.svg`"
+              alt=""
+            />
             <p class="text-center">{{ item.name }}</p>
           </div>
         </template>
@@ -301,6 +314,38 @@ export default {
       this.selectedAvatar = ''
       this.profileId = null
     },
+    async delete() {
+      window.alertify
+        .confirm(
+          `Are you sure you want to delete ${this.childs_name}'s profile?`,
+          async () => {
+            this.loading = true
+
+            try {
+              let res = await this.$store.dispatch('profile/deleteProfile', {
+                id: this.profileId,
+              })
+              if (res instanceof Error) throw new Error(res)
+              res = this.$store.dispatch('profile/getUser')
+              if (res instanceof Error) throw new Error(res)
+              this.resetLocalState()
+              await this.$auth.fetchUser()
+              window.alertify.success('Profile successfully Deleted')
+              this.loading = false
+              this.step = 0
+            } catch (error) {
+              console.log(error)
+              window.alertify.error(error.response.data)
+              this.loading = false
+            }
+          }
+        )
+        .set('labels', { ok: 'DELETE', cancel: 'Cancel' })
+    },
+    async switchProfile(id) {
+      await this.$store.dispatch('profile/switchProfile', id)
+      this.$router.replace('/')
+    },
     async addUpdateProfile() {
       this.loading = true
       const payload = {
@@ -331,8 +376,8 @@ export default {
       if (this.context == 'Edit') {
         try {
           let res = await this.$store.dispatch('profile/updateProfile', {
-            id: '',
-            data: payload,
+            id: this.profileId,
+            data: { ...payload.profile },
           })
           if (res instanceof Error) throw new Error(res)
           res = this.$store.dispatch('profile/getUser')
