@@ -60,7 +60,7 @@
           </span>
         </ValidationProvider>
       </ValidationObserver>
-      <button class="btn">Resend Code</button>
+      <button class="btn mx-auto block">Resend Code</button>
     </section>
     <section v-show="this.step == 3">
       <p class="text-center">
@@ -171,7 +171,7 @@
       >
         Save
       </button>
-      <button v-if="this.loading" class="btn primary loading">
+      <button v-if="this.loading" class="btn primary loading mx-auto">
         <svg
           class="animate-spin h-5 w-5 text-white"
           xmlns="http://www.w3.org/2000/svg"
@@ -233,21 +233,21 @@ export default {
       let validated
       switch (this.step) {
         case 1:
-          validated = this.$refs.email.validate()
+          validated = await this.$refs.email.validate()
           if (!validated) {
             return false
           }
           this.requestReset()
           break
         case 2:
-          validated = this.$refs.code.validate()
+          validated = await this.$refs.code.validate()
           if (!validated) {
             return false
           }
           this.validateCode()
           break
         case 3:
-          validated = this.$refs.addPassword.validate()
+          validated = await this.$refs.addPassword.validate()
           if (!validated) {
             return false
           }

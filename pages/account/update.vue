@@ -56,7 +56,13 @@
       </ValidationObserver>
     </section>
     <footer>
-      <button v-if="!this.loading" class="btn primary">Update</button>
+      <button
+        @click="this.updateProfile"
+        v-if="!this.loading"
+        class="btn primary"
+      >
+        Update
+      </button>
 
       <button v-if="this.loading" class="btn primary loading">
         <svg
@@ -100,9 +106,13 @@ export default {
     return {
       loading: false,
 
-      first_name: 'Dylan',
-      last_name: 'Britz',
+      first_name: '',
+      last_name: '',
     }
+  },
+  mounted() {
+    this.first_name = this.$auth.user.first_name
+    this.last_name = this.$auth.user.last_name
   },
   methods: {
     goBack() {
@@ -112,7 +122,28 @@ export default {
       this.$refs[form].reset()
     },
 
-    nextStep() {},
+    async updateProfile() {
+      this.loading = true
+      try {
+        let res = await this.$store.dispatch('user/updateProfile', {
+          data: {
+            first_name: this.first_name,
+            last_name: this.last_name,
+          },
+        })
+
+        if (res instanceof Error) throw new Error(res)
+        res = await this.$auth.fetchUser()
+        if (res instanceof Error) throw new Error(res)
+
+        window.alertify.success('Profile updated successfully')
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
   },
 }
 </script>

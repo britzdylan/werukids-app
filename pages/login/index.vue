@@ -152,7 +152,7 @@
     >
       Sign In
     </button>
-    <button v-show="this.loading" class="btn primary loading">
+    <button v-show="this.loading" class="btn primary loading mx-auto block">
       <svg
         class="animate-spin h-5 w-5 text-white"
         xmlns="http://www.w3.org/2000/svg"

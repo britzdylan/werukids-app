@@ -41,7 +41,10 @@
       </span>
     </nav>
     <div class="ml-auto flex flex-row items-center">
-      <div @click="() => this.$router.push('/profile')" class="mr-8">
+      <div
+        @click="() => this.$router.push('/profile')"
+        class="mr-8 cursor-pointer"
+      >
         <img
           class="w-12 h-12"
           :src="`/avatars/${this.currentProfile.avatar}.svg`"
@@ -49,8 +52,8 @@
         />
       </div>
 
-      <div @click="() => this.$auth.logout">
-        <img class="w-6 h-6" src="/icons/Logout.svg" alt="" />
+      <div @click="() => this.$auth.logout()">
+        <img class="w-6 h-6 cursor-pointer" src="/icons/Logout.svg" alt="" />
       </div>
     </div>
   </header>

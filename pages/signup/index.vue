@@ -374,7 +374,7 @@ export default {
       password: '',
       firstname: '',
       lastname: '',
-      showPassword: false,
+      showPassword: true,
       childs_name: '',
       step: 1,
       age: ['1', '2', '3', '4', '5', '6', '7', '8+'],
@@ -387,7 +387,7 @@ export default {
         'girl_3',
         'girl_4',
       ],
-      // lang: ['english', 'afrikaans', 'zulu', 'venda'],
+
       selectedLang: null,
       selectedAge: 0,
       selectedAvatar: '',

@@ -38,4 +38,10 @@ export const actions = {
       return res.data
     })
   },
+
+  async updateProfile(context, payload) {
+    return await this.$axios.post(`/user/update`, payload).then((res) => {
+      return res.data
+    })
+  },
 }
