@@ -15,8 +15,11 @@ export default {
   methods: {
     async getUser() {
       try {
-        const res = this.$store.dispatch('profile/getUser')
+        const res = await this.$store.dispatch('profile/getUser')
         if (res instanceof Error) throw new Error(res)
+        if (this.$store.state.profile.currentProfile == null) {
+          this.$store.dispatch('profile/switchProfile', res.user.profiles[0])
+        }
       } catch (error) {
         console.log(error)
         window.alertify.error(error.response.data)

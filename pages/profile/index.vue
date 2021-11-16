@@ -13,7 +13,7 @@
         {{ this.context }} profile
       </p>
       <img
-        v-if="
+        v-show="
           this.context == 'Edit' && this.step > 0 && this.profiles.length > 1
         "
         @click="this.delete"

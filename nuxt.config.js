@@ -13,6 +13,7 @@ export default {
       : 'http://localhost:8000',
     appUrl: process.env.APP_URL ? process.env.APP_URL.trim() : '',
     version: JSON.parse(packageJson).version || '0',
+    strapiUrl: process.env.STRAPI_URL,
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head

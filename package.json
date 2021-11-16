@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "SET BASE_URL=http://localhost:8000 && nuxt",
+    "dev": "SET BASE_URL=http://localhost:8000 && SET STRAPI_URL=http://localhost:1337 && nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "SET BASE_URL=http://localhost:8000 && nuxt generate"

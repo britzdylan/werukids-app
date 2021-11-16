@@ -1,14 +1,17 @@
 <template>
   <main
+    v-if="this.account && this.account != null"
     class="p-4 grid grid-col-1 gap-12 lg:grid-cols-2 max-w-4xl mx-auto pb-24"
   >
     <div class="accountDetails">
       <div>
         <h1 class="font-display font-bold leading-none text-3xl">
-          Dylan Britz
+          {{ this.account.first_name }} {{ this.account.last_name }}
         </h1>
-        <p class="font-medium">britzdylan@gmail.com</p>
-        <small class="text-line">Joined July 1st 2016</small>
+        <p class="font-medium">{{ this.account.email }}</p>
+        <small class="text-line">{{
+          new Date(this.account.createdAt).toDateString()
+        }}</small>
       </div>
       <img
         @click="() => this.$router.push('/account/update')"
@@ -20,9 +23,15 @@
     <section class="subscriptionWrapper">
       <header class="flex flex-row items-center justify-start">
         <h2 class="mr-auto text-lg">Subscription</h2>
-        <span class="flex flex-row items-center"
-          ><div class="h-3 w-3 bg-success rounded-full mr-2"></div>
-          ACTIVE</span
+        <span class="flex flex-row items-center uppercase"
+          ><div
+            :class="this.calcTrailTime() > 0 ? 'bg-success' : 'bg-error'"
+            class="h-3 w-3 rounded-full mr-2"
+          ></div>
+          {{ this.account.subscription_status }}
+          <span v-if="this.account.subscription_status == 'trail'"
+            >({{ this.calcTrailTime() }} Days left)</span
+          ></span
         >
       </header>
 
@@ -37,11 +46,21 @@
           <span
             style="padding: 1px"
             class="bg-secondaryLight rounded ring-2 ring-secondaryDark mr-2"
-            >Standard</span
+            >{{
+              this.account.subscription_status != 'trail'
+                ? this.account.subscription.plan
+                : 'TRAIL'
+            }}</span
           >Plan
         </p>
         <p class="text-5xl font-bold leading-none mt-8">
-          R 99.00 <span class="text-sm">/p.m</span>
+          R
+          {{
+            this.account.subscription_status != 'trail'
+              ? this.account.subscription.price
+              : 0
+          }}
+          <span class="text-sm">/p.m</span>
         </p>
       </div>
     </section>
@@ -106,6 +125,23 @@
 <script>
 export default {
   layout: 'home',
+  computed: {
+    account() {
+      return this.$auth.user
+    },
+  },
+  methods: {
+    calcTrailTime() {
+      const start_date = this.account.subscription_started.toString()
+      const today = new Date()
+      console.log(today)
+      const trailStarted = new Date(start_date)
+      console.log(trailStarted)
+      const difference = trailStarted.getTime() - today.getTime()
+      const days = Math.ceil(difference / (1000 * 3600 * 24))
+      return 7 - days > 0 ? 7 - days : 'Trail has ended'
+    },
+  },
 }
 </script>
 <style>

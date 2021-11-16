@@ -19,11 +19,9 @@ export const mutations = {
   },
 }
 export const actions = {
-  async getUser(state, context, payload) {
+  async getUser(context, payload) {
     return await this.$axios.get(`/user`).then((res) => {
-      if (state.currentProfile == null) {
-        context.commit('setCurrentProfile', res.data.user.profiles[0])
-      }
+      // context.commit('setCurrentProfile', res.data.user.profiles[0])
 
       context.commit('setProfiles', res.data.user.profiles)
       return res.data
