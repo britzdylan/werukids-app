@@ -10,6 +10,7 @@
 </template>
 <script>
 export default {
+  name: 'home',
   mounted() {
     if (!this.$auth.loggedIn) {
       this.$router.replace('/login')

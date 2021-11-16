@@ -275,21 +275,23 @@
         Please Choose a primary language preference for {{ this.childs_name }}
       </p>
       <div class="">
-        <template v-for="item in lang">
+        <template v-for="item in languages">
           <div
-            @click="setSelectedLang(item)"
+            @click="setSelectedLang(item.id)"
             :key="'lang_' + item"
-            :class="selectedLang == item ? 'langSelected' : 'lang'"
+            :class="selectedLang == item.id ? 'langSelected' : 'lang'"
           >
-            {{ item }}
+            {{ item.Title }}
           </div>
         </template>
       </div>
     </section>
     <!-- ================================terms================================= -->
-    <section v-show="this.step == 8">
-      <p class="text-left"></p>
-    </section>
+    <section
+      v-if="this.terms != null && this.terms.Content"
+      v-html="$md.render(this.terms.Content)"
+      v-show="this.step == 8"
+    ></section>
     <!-- ================================done================================= -->
     <div
       class="px-4 py-2 h-full flex flex-col justify-between lg:justify-center"
@@ -385,15 +387,38 @@ export default {
         'girl_3',
         'girl_4',
       ],
-      lang: ['english', 'afrikaans', 'zulu', 'venda'],
-      selectedLang: 'english',
+      // lang: ['english', 'afrikaans', 'zulu', 'venda'],
+      selectedLang: null,
       selectedAge: 0,
       selectedAvatar: '',
       accountExists: false,
-      terms_agreement_date: null,
     }
   },
+  computed: {
+    terms() {
+      return this.$store.getters['content/getTerms']
+    },
+    languages() {
+      return this.$store.getters['content/getLanguages']
+    },
+  },
+  mounted() {
+    this.fetchContent()
+  },
   methods: {
+    async fetchContent() {
+      try {
+        let res = await this.$store.dispatch('content/fetchTerms')
+        if (res instanceof Error) throw new Error(res)
+        res = await this.$store.dispatch('content/fetchLang')
+        if (res instanceof Error) throw new Error(res)
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(
+          'Oops something went wrong, please try again later'
+        )
+      }
+    },
     goBack() {
       if (this.loading) {
         return
@@ -540,7 +565,6 @@ export default {
           this.step = 8
           break
         case 8:
-          // this.terms_agreement_date = new Date.toISOString()
           this.loading = true
           const today = new Date()
           console.log(today.toISOString(), '//////TODAY')
@@ -558,7 +582,7 @@ export default {
             ],
             subscription_started: today.toISOString(),
             terms_agreed_date: today.toISOString(),
-            terms_version: '2021-11-14T15:12:45.793Z',
+            terms_version: this.terms.updated_at,
           }
           try {
             const res = await this.$store.dispatch('user/signUp', payload)
@@ -600,8 +624,6 @@ export default {
   },
 }
 
-// TODO Fetch terms and conditions from strapi
-// TODO Fetch language from DB
 // TODO login user after successful signup
 </script>
 

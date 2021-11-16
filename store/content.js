@@ -30,24 +30,24 @@ export const mutations = {
 }
 export const actions = {
   async fetchTerms(context, payload) {
-    return await fetch(`${process.env.strapiUrl}/terms-and-conditions`)
+    return await fetch(`${new URL(process.env.strapiUrl)}terms-and-conditions`)
       .then((response) => response.json())
       .then((data) => context.commit('setTerms', data))
   },
   async fetchBooks(context, payload) {
-    return await fetch(`${process.env.strapiUrl}/books`)
+    return await fetch(`${new URL(process.env.strapiUrl)}books`)
       .then((response) => response.json())
       .then((data) => context.commit('setBooks', data))
   },
   async fetchBook(context, payload) {
-    return await fetch(`${process.env.strapiUrl}/books/${payload}`)
+    return await fetch(`${new URL(process.env.strapiUrl)}books/${payload}`)
       .then((response) => response.json())
       .then((data) => {
         return data
       })
   },
   async fetchLang(context, payload) {
-    return await fetch(`${process.env.strapiUrl}/languages`)
+    return await fetch(`${new URL(process.env.strapiUrl)}languages`)
       .then((response) => response.json())
       .then((data) => context.commit('setLang', data))
   },
