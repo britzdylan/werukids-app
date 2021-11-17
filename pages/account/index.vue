@@ -25,7 +25,7 @@
         <h2 class="mr-auto text-lg">Subscription</h2>
         <span class="flex flex-row items-center uppercase"
           ><div
-            :class="this.calcTrailTime() > 0 ? 'bg-success' : 'bg-error'"
+            :class="this.calcActiveColor(this.$auth.user.subscription_status)"
             class="h-3 w-3 rounded-full mr-2"
           ></div>
           {{ this.account.subscription_status }}
@@ -131,6 +131,22 @@ export default {
     },
   },
   methods: {
+    calcActiveColor(key) {
+      switch (key) {
+        case 'active':
+          return 'bg-success'
+          break
+        case 'trail':
+          return 'bg-line'
+          break
+        case 'suspended':
+          return 'bg-error'
+          break
+        case 'paused':
+          return 'bg-warning'
+          break
+      }
+    },
     calcTrailTime() {
       const start_date = this.account.subscription_started.toString()
       const today = new Date()

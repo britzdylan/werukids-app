@@ -1,5 +1,6 @@
 <template>
   <main class="subpage">
+    <loader v-show="this.loading" />
     <header>
       <img
         @click="() => this.$router.go(-1)"
@@ -10,7 +11,7 @@
 
       <p>Manage Subscription</p>
     </header>
-    <section v-if="this.subscriptions != null && !this.loading">
+    <section v-if="this.subscriptions != null">
       <p class="text-center mb-8">Update your Werukids Subscription plan</p>
       <template v-for="item in subscriptions">
         <div :key="item.id" class="subscription cursor-pointer">
@@ -42,63 +43,21 @@
       </template>
     </section>
     <footer>
-      <button style="" v-if="!this.loading && false" class="btn primary">
-        Update
-      </button>
       <button
         @click="this.startSub"
         style=""
-        v-if="!this.loading && this.$auth.user.subscription_status == 'trail'"
+        v-if="this.$auth.user.subscription_status != 'active'"
         class="btn primary"
       >
         Start Subscription
       </button>
-      <button v-if="this.loading" class="btn primary loading">
-        <svg
-          class="animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      </button>
-      <button v-if="!this.loading" class="btn outline">
+
+      <button
+        @click="this.pauseSub"
+        v-if="this.$auth.user.subscription_status != 'paused'"
+        class="btn outline"
+      >
         Pause Subscription
-      </button>
-      <button v-if="this.loading" class="btn outline loading">
-        <svg
-          class="animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
       </button>
     </footer>
   </main>
@@ -121,6 +80,34 @@ export default {
     this.getSubscriptions()
   },
   methods: {
+    async pauseSub() {
+      window.alertify
+        .confirm(
+          'Are you sure you want to pause your subscription',
+          async () => {
+            try {
+              this.loading = true
+              let res = await this.$store.dispatch(
+                'subscriptions/updateSubscription',
+                {
+                  subscription_status: 'paused',
+                  subscription_started: new Date().toISOString(),
+                }
+              )
+              if (res instanceof Error) throw new Error(res)
+              res = await this.$auth.fetchUser()
+              if (res instanceof Error) throw new Error(res)
+              window.alertify.success('subscription successfully updated')
+              this.loading = false
+            } catch (error) {
+              console.log(error)
+              window.alertify.error(error.response.data)
+              this.loading = false
+            }
+          }
+        )
+        .set('labels', { ok: 'CONTINUE', cancel: 'Cancel' })
+    },
     async startSub() {
       // check if pyment details are added, if not go to add it
       if (!this.$auth.user.billing.card.active) {
@@ -141,9 +128,12 @@ export default {
               let res = await this.$store.dispatch(
                 'subscriptions/updateSubscription',
                 {
-                  subscription_id: this.selectedSub._id,
+                  subscription_status: 'active',
+                  subscription_started: new Date().toISOString(),
                 }
               )
+              if (res instanceof Error) throw new Error(res)
+              res = await this.$auth.fetchUser()
               if (res instanceof Error) throw new Error(res)
               window.alertify.success('subscription successfully updated')
               this.loading = false
