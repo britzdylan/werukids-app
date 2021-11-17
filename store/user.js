@@ -44,4 +44,16 @@ export const actions = {
       return res.data
     })
   },
+  async updateNotifications(context, payload) {
+    return await this.$axios
+      .post(`/user/update/notifications`, payload)
+      .then((res) => {
+        return res.data
+      })
+  },
+  async deleteAccount(context, payload) {
+    return await this.$axios.delete(`/user/delete`, payload).then((res) => {
+      return res.data
+    })
+  },
 }

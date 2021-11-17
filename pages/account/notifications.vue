@@ -15,29 +15,33 @@
         Email me when:
       </h1>
       <label class="checkboxContainer">
-        <input v-model="marketing" name="marketing" type="checkbox" />
+        <input
+          v-model="notifications.marketing"
+          name="marketing"
+          type="checkbox"
+        />
         <span class="checkmark"></span>
         <label class="ml-4" for="marketing"
           >There is a product update or learning tip</label
         >
       </label>
       <label class="checkboxContainer">
-        <input v-model="billing" name="marketing" type="checkbox" />
+        <input v-model="notifications.account" name="account" type="checkbox" />
         <span class="checkmark"></span>
-        <label class="ml-4" for="marketing"
-          >My billing details are updated</label
-        >
-      </label>
-      <label class="checkboxContainer">
-        <input v-model="subscription" name="marketing" type="checkbox" />
-        <span class="checkmark"></span>
-        <label class="ml-4" for="marketing"
-          >There are changes to my subscription</label
+        <label class="ml-4" for="account"
+          >There are any changes to my account</label
         >
       </label>
     </section>
     <footer>
-      <button style="" v-if="!this.loading" class="btn primary">Update</button>
+      <button
+        @click="this.updateNotifications"
+        style=""
+        v-if="!this.loading"
+        class="btn primary"
+      >
+        Update
+      </button>
 
       <button v-if="this.loading" class="btn primary loading">
         <svg
@@ -77,14 +81,42 @@ export default {
   data() {
     return {
       loading: false,
-      marketing: true,
-      subscription: false,
+      notifications: {
+        marketing: false,
+        account: false,
+      },
       billing: false,
     }
+  },
+  mounted() {
+    this.notifications.marketing = this.$auth.user.notifications.marketing
+    this.notifications.account = this.$auth.user.notifications.account
   },
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    async updateNotifications() {
+      const payload = {
+        notifications: this.notifications,
+      }
+      this.loading = true
+      try {
+        let res = await this.$store.dispatch(
+          'user/updateNotifications',
+          payload
+        )
+        if (res instanceof Error) throw new Error(res)
+        window.alertify.success(
+          'Account notifications has been successfully updated'
+        )
+        await this.$auth.fetchUser()
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
     },
   },
 }

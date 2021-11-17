@@ -26,6 +26,7 @@
     </section>
     <footer>
       <button
+        @click="this.delete"
         style="color: white"
         v-if="!this.loading"
         class="btn bg-error text-white"
@@ -76,6 +77,27 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    delete() {
+      window.alertify
+        .confirm(
+          'Are you sure you want to delete your account, this action is not reversible',
+          async () => {
+            this.loading = true
+            try {
+              let res = await this.$store.dispatch('user/deleteAccount')
+              if (res instanceof Error) throw new Error(res)
+              window.alertify.success('Account has been deleted successfully')
+              this.$auth.logout()
+              this.loading = false
+            } catch (error) {
+              console.log(error)
+              window.alertify.error(error.response.data)
+              this.loading = false
+            }
+          }
+        )
+        .set('labels', { ok: 'DELETE ACCOUNT', cancel: 'Cancel' })
     },
   },
 }

@@ -5,9 +5,9 @@
     </div>
     <nav class="">
       <router-link
-        :class="this.currentRoute == 'learn' ? 'activeLink' : ''"
+        :class="this.currentRoute == 'index' ? 'activeLink' : ''"
         class="navItem"
-        to="/learn"
+        to="/"
       >
         Learn
       </router-link>

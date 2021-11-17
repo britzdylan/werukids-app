@@ -17,7 +17,12 @@
       </p>
     </section>
     <footer>
-      <button style="" v-if="!this.loading" class="btn primary">
+      <button
+        @click="this.exportData"
+        style=""
+        v-if="!this.loading"
+        class="btn primary"
+      >
         Export all my data
       </button>
 
@@ -46,6 +51,7 @@
       <button @click="() => this.$router.go(-1)" class="btn outline">
         Cancel
       </button>
+      <a id="download" style="display: none"></a>
     </footer>
   </main>
 </template>
@@ -59,11 +65,28 @@ export default {
   data() {
     return {
       loading: false,
+      data: null,
     }
   },
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    async exportData() {
+      this.loading = true
+      await this.$auth.fetchUser()
+      let dataStr =
+        'data:text/json;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(this.$auth.user))
+
+      var dlAnchorElem = document.getElementById('download')
+      dlAnchorElem.setAttribute('href', dataStr)
+      dlAnchorElem.setAttribute(
+        'download',
+        `werukids-data-${new Date().toISOString()}-${this.$auth.user._id}.json`
+      )
+      dlAnchorElem.click()
+      this.loading = false
     },
   },
 }

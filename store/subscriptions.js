@@ -17,4 +17,11 @@ export const actions = {
         return res.data
       })
   },
+  async updateBilling(context, payload) {
+    return await this.$axios
+      .post(`/subscriptions/billing/update`, payload)
+      .then((res) => {
+        return res.data
+      })
+  },
 }

@@ -22,7 +22,7 @@
                 type="text"
                 placeholder="Mr. John Doe"
                 name="Name"
-                v-model="name_card"
+                v-model="card.name"
               />
             </div>
             <small class="text-error">{{ errors[0] }}</small>
@@ -42,7 +42,7 @@
                 type="text"
                 placeholder="1234 **** **** ****"
                 name="Card Number"
-                v-model="card_number"
+                v-model="card.number"
               />
             </div>
             <small class="text-error">{{ errors[0] }}</small>
@@ -68,7 +68,7 @@
                     type="number"
                     placeholder="MM"
                     name="Month"
-                    v-model="expiry_month"
+                    v-model="card.expiry.month"
                     class="w-20 mr-4"
                   />
                   <small class="text-error absolute left-0 top-14">{{
@@ -92,7 +92,7 @@
                     type="number"
                     placeholder="YY"
                     name="Year"
-                    v-model="expiry_year"
+                    v-model="card.expiry.year"
                   />
                   <small class="text-error absolute left-0 top-14">{{
                     errors[0]
@@ -116,7 +116,7 @@
                   type="number"
                   placeholder="123"
                   name="CVV"
-                  v-model="cvv"
+                  v-model="card.cvv"
                 />
                 <small class="text-error absolute left-0 top-14">{{
                   errors[0]
@@ -140,7 +140,7 @@
                 type="text"
                 placeholder="12 example street"
                 name="Street Address"
-                v-model="street_address"
+                v-model="street"
               />
             </div>
             <small class="text-error">{{ errors[0] }}</small>
@@ -163,20 +163,16 @@
           </span>
         </ValidationProvider>
         <!-- ====================================================================  province ==================================================================== -->
-        <ValidationProvider
-          rules="required"
-          name="State / Province"
-          v-slot="{ errors }"
-        >
+        <ValidationProvider rules="required" name="Country" v-slot="{ errors }">
           <span class="input">
-            <label for="State / Province">State / Province</label>
+            <label for="Country">Country</label>
             <div>
               <input
                 @input="handleChange('billing')"
                 type="text"
-                placeholder="State / Provincet"
-                name="State / Province"
-                v-model="state"
+                placeholder="Country"
+                name="Country"
+                v-model="country"
               />
             </div>
             <small class="text-error">{{ errors[0] }}</small>
@@ -196,7 +192,7 @@
                 type="text"
                 placeholder="Zip / Postal Code"
                 name="Zip / Postal Code"
-                v-model="zip"
+                v-model="postalcode"
               />
             </div>
             <small class="text-error">{{ errors[0] }}</small>
@@ -248,28 +244,85 @@ export default {
     return {
       loading: false,
       name_card: 'Dylan Britz',
-      card_number: '',
-      expiry_year: '',
-      expiry_month: '',
-      cvv: '',
+      card: {
+        number: '',
+        cvv: '',
+        name: '',
+        expiry: {
+          month: '',
+          year: '',
+        },
+      },
+
       street: '',
       city: '',
-      state: '',
-      zip: '',
+      country: '',
+      postalcode: '',
     }
   },
+  mounted() {
+    this.getBillingDetails()
+  },
   methods: {
+    getBillingDetails() {
+      let user = this.$auth.user.billing
+      this.card = {
+        number: user.card.number,
+        cvv: user.card.cvv,
+        name: user.card.name,
+        expiry: {
+          month: user.card.expiry.month,
+          year: user.card.expiry.year,
+        },
+      }
+      this.street = user.street
+      this.city = user.city
+      this.country = user.country
+      this.postalcode = user.postalcode
+    },
     handleChange(form) {
       this.$refs[form].reset()
     },
     async validateForm() {
+      const payload = {
+        billing: {
+          card: this.card,
+          street: this.street,
+          city: this.city,
+          country: this.country,
+          postalcode: this.postalcode,
+        },
+      }
+      this.loading = true
       const validated = await this.$refs.billing.validate()
 
       if (!validated) {
+        this.loading = false
         return false
+      }
+
+      try {
+        let res = await this.$store.dispatch(
+          'subscriptions/updateBilling',
+          payload
+        )
+        if (res instanceof Error) throw new Error(res)
+
+        res = await this.$auth.fetchUser()
+        if (res instanceof Error) throw new Error(res)
+
+        window.alertify.success('Billing details updated successfully')
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
       }
     },
   },
 }
+// TODO verify card number return type of card number
+// TODO verify card expiry
+// TODO verify card cvv
 </script>
 <style></style>

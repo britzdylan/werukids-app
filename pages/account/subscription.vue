@@ -54,7 +54,10 @@
 
       <button
         @click="this.pauseSub"
-        v-if="this.$auth.user.subscription_status != 'paused'"
+        v-if="
+          this.$auth.user.subscription_status != 'paused' &&
+          this.$auth.user.subscription_status != 'trail'
+        "
         class="btn outline"
       >
         Pause Subscription
@@ -117,34 +120,35 @@ export default {
             return
           })
           .set('labels', { ok: 'ADD CARD', cancel: 'Cancel' })
+      } else {
+        window.alertify
+          .confirm(
+            'Are you sure you want to start your subscription',
+            async () => {
+              try {
+                this.loading = true
+                let res = await this.$store.dispatch(
+                  'subscriptions/updateSubscription',
+                  {
+                    subscription_status: 'active',
+                    subscription_started: new Date().toISOString(),
+                  }
+                )
+                if (res instanceof Error) throw new Error(res)
+                res = await this.$auth.fetchUser()
+                if (res instanceof Error) throw new Error(res)
+                window.alertify.success('subscription successfully updated')
+                this.loading = false
+              } catch (error) {
+                console.log(error)
+                window.alertify.error(error.response.data)
+                this.loading = false
+              }
+            }
+          )
+          .set('labels', { ok: 'CONTINUE', cancel: 'Cancel' })
       }
       // if it is, confirm start date
-      window.alertify
-        .confirm(
-          'Are you sure you want to start your subscription',
-          async () => {
-            try {
-              this.loading = true
-              let res = await this.$store.dispatch(
-                'subscriptions/updateSubscription',
-                {
-                  subscription_status: 'active',
-                  subscription_started: new Date().toISOString(),
-                }
-              )
-              if (res instanceof Error) throw new Error(res)
-              res = await this.$auth.fetchUser()
-              if (res instanceof Error) throw new Error(res)
-              window.alertify.success('subscription successfully updated')
-              this.loading = false
-            } catch (error) {
-              console.log(error)
-              window.alertify.error(error.response.data)
-              this.loading = false
-            }
-          }
-        )
-        .set('labels', { ok: 'CONTINUE', cancel: 'Cancel' })
     },
     goBack() {
       this.$router.go(-1)

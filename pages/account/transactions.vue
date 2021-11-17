@@ -11,26 +11,18 @@
       <p>Transaction History</p>
     </header>
     <section>
-      <div class="transactionPill">
-        <p>03 March 2019</p>
-        <p>R 99.00</p>
-        <img src="/icons/Export.svg" alt="" />
-      </div>
-      <div class="transactionPill">
-        <p>03 March 2019</p>
-        <p>R 99.00</p>
-        <img src="/icons/Export.svg" alt="" />
-      </div>
-      <div class="transactionPill">
-        <p>03 March 2019</p>
-        <p>R 99.00</p>
-        <img src="/icons/Export.svg" alt="" />
-      </div>
-      <div class="transactionPill">
-        <p>03 March 2019</p>
-        <p>R 99.00</p>
-        <img src="/icons/Export.svg" alt="" />
-      </div>
+      <template v-for="item in transactions">
+        <div :key="item.id" class="transactionPill">
+          <p>{{ item.transaction_date }}</p>
+          <p>R {{ item.transaction_ammount }}</p>
+          <img @click="exportItem(item)" src="/icons/Export.svg" alt="" />
+        </div>
+      </template>
+      <template v-if="transactions.length < 1">
+        <h5 class="text-center font-bold font-display opacity-50">
+          All your transaction history will show up here
+        </h5>
+      </template>
     </section>
   </main>
 </template>
@@ -46,12 +38,22 @@ export default {
       loading: false,
     }
   },
+  computed: {
+    transactions() {
+      return this.$auth.user.billing.transaction_history
+    },
+  },
   methods: {
+    exportItem() {
+      return true
+    },
     goBack() {
       this.$router.go(-1)
     },
   },
 }
+// TODO exportIte
+// TODO add montlhy filter
 </script>
 <style>
 .transactionPill {

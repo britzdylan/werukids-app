@@ -108,13 +108,13 @@
         Please Choose a primary language preference for {{ this.childs_name }}
       </p>
       <div class="">
-        <template v-for="item in lang">
+        <template v-for="item in languages">
           <div
-            @click="setSelectedLang(item)"
-            :key="'lang_' + item"
-            :class="selectedLang == item ? 'langSelected' : 'lang'"
+            @click="setSelectedLang(item.id)"
+            :key="'lang_' + item.id"
+            :class="selectedLang == item.id ? 'langSelected' : 'lang'"
           >
-            {{ item }}
+            {{ item.Title }}
           </div>
         </template>
       </div>
@@ -212,7 +212,7 @@ export default {
         'girl_4',
       ],
       // profiles: ['boy_1', 'girl_3', 'girl_4'],
-      lang: ['english', 'afrikaans', 'zulu', 'venda'],
+
       selectedLang: '',
       selectedAge: null,
       selectedAvatar: '',
@@ -225,8 +225,25 @@ export default {
     profiles() {
       return this.$store.getters['profile/getAllProfiles']
     },
+    languages() {
+      return this.$store.getters['content/getLanguages']
+    },
+  },
+  mounted() {
+    this.fetchContent()
   },
   methods: {
+    async fetchContent() {
+      try {
+        let res = await this.$store.dispatch('content/fetchLang')
+        if (res instanceof Error) throw new Error(res)
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(
+          'Oops something went wrong, please try again later'
+        )
+      }
+    },
     addProfile() {
       this.context = 'Add'
       this.step = 1
@@ -353,6 +370,7 @@ export default {
           name: this.childs_name,
           age: this.selectedAge,
           avatar: this.selectedAvatar,
+          primary_language: this.selectedLang,
         },
       }
       if (this.context == 'Add') {

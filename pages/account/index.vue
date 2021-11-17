@@ -68,8 +68,13 @@
       <header class="flex flex-row items-center justify-start">
         <h2 class="mr-auto text-lg">Payment Details</h2>
         <span class="flex flex-row items-center"
-          ><div class="h-3 w-3 bg-success rounded-full mr-2"></div>
-          ACTIVE</span
+          ><div
+            :class="
+              this.account.billing.card.active ? 'bg-success' : 'bg-error'
+            "
+            class="h-3 w-3 rounded-full mr-2 uppercase"
+          ></div>
+          {{ this.account.billing.card.active ? 'ACTIVE' : 'INACTIVE' }}</span
         >
       </header>
 
@@ -84,14 +89,14 @@
           <small class="text-placeholder mb-2 block">Cardholder Name</small>
           <div class="flex flex-row items-center">
             <img class="mr-4" src="/icons/Profile.svg" alt="" />
-            <p>MR DM BRITZ</p>
+            <p>{{ this.account.billing.card.name }}</p>
           </div>
         </div>
         <div class="mb-4">
           <small class="text-placeholder mb-2 block">Card Number</small>
           <div class="flex flex-row items-center">
             <img class="mr-4" src="/icons/mastercard.svg" alt="" />
-            <p>5300 7817 9809 4441</p>
+            <p>{{ this.account.billing.card.number }}</p>
           </div>
         </div>
         <div class="flex flex-row items-center">
@@ -99,7 +104,11 @@
             <small class="text-placeholder mb-2 block">Expires</small>
             <div class="flex flex-row items-center">
               <img class="mr-4" src="/icons/Calandar.svg" alt="" />
-              <p>06/23</p>
+              <p>
+                {{ this.account.billing.card.expiry.month }}/{{
+                  this.account.billing.card.expiry.year
+                }}
+              </p>
             </div>
           </div>
           <div>
