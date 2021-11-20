@@ -1,6 +1,7 @@
 <template>
   <main class="subpage h-full bg-white">
-    <header>
+    <loader v-if="this.loading" />
+    <header v-if="!this.loading">
       <img
         @click="this.goBack"
         class="h-6 w-6 cursor-pointer"
@@ -8,15 +9,16 @@
         alt=""
       />
 
-      <p>The Things I do everyday</p>
+      <p>{{ this.book.Title }}</p>
     </header>
     <!-- {{ this.book.url }} -->
     <iframe
+      v-if="!this.loading"
       id="book"
       allowfullscreen="allowfullscreen"
       scrolling="no"
       class="fp-iframe h-full w-full xl:w-2/3 mx-auto"
-      :src="this.book.url"
+      :src="this.book.Link"
     ></iframe>
     <div
       class="
@@ -44,19 +46,23 @@
 </template>
 <script>
 export default {
+  head() {
+    return {
+      script: [],
+    }
+  },
   data() {
     return {
-      book: {
-        url: 'https://myfuturework.aflip.in/500b260ef6.html',
-        pages: 26,
-      },
+      loading: true,
+      book: null,
       orientation: null,
+      file: null,
     }
   },
   mounted() {
     this.orientation = window.screen.orientation.type
-
     window.addEventListener('orientationchange', this.handleOrientationChange)
+    this.fetchBook()
   },
   methods: {
     handleOrientationChange() {
@@ -67,18 +73,34 @@ export default {
       //     // landscape mode
       //   }
     },
-
-    applyFilters() {
-      this.showFilter = false
+    async fetchBook() {
+      try {
+        let res = await this.$store.dispatch(
+          'content/fetchBook',
+          this.$route.params.id
+        )
+        if (res instanceof Error) throw new Error(res)
+        this.book = res
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(
+          'Oops something went wrong please try again later'
+        )
+        this.loading = false
+      }
     },
+
     goBack() {
       this.$router.replace('/read')
     },
-    toggleMyBooks() {
-      this.showMyBooks = !this.showMyBooks
+  },
+  computed: {
+    isLastPage() {
+      const iFrame = document.getElementById('book')
+      return iFrame.contentWindow
     },
   },
-  computed: {},
 }
 </script>
 <style>

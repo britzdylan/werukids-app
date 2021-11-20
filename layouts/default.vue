@@ -11,6 +11,7 @@ export default {
       this.$router.replace('/login')
     }
     this.getUser()
+    this.getLanguages()
   },
   methods: {
     async getUser() {
@@ -24,6 +25,15 @@ export default {
         console.log(error)
         window.alertify.error(error.response.data)
         this.loading = false
+      }
+    },
+    async getLanguages() {
+      try {
+        let res = await this.$store.dispatch('content/fetchLang')
+        if (res instanceof Error) throw new Error(res)
+      } catch (error) {
+        console.log(error)
+        // window.alertify.error(error.response.data)
       }
     },
   },

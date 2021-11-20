@@ -34,9 +34,11 @@
           >
             Rate Us
           </p>
-          <p class="menuItem">Help</p>
-          <p class="menuItem">About werukids</p>
-          <p class="menuItem">Share</p>
+          <!-- <p class="menuItem">Help</p> -->
+          <a href="https://www.werukids.com/about" target="_blank"
+            ><p class="menuItem">About werukids</p></a
+          >
+          <p @click="this.share" class="menuItem">Share</p>
         </div>
       </span>
     </nav>
@@ -77,6 +79,18 @@ export default {
     },
     toggleMenu() {
       this.showMenu = !this.showMenu
+    },
+    share() {
+      if (navigator.share) {
+        navigator
+          .share({
+            title: 'Weru Kids',
+            text: 'Check out Werukids',
+            url: 'https://app.werukids.co.za/',
+          })
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error))
+      }
     },
   },
 }

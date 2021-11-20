@@ -56,4 +56,9 @@ export const actions = {
       return res.data
     })
   },
+  async googleAuth(context, payload) {
+    return await this.$axios.post('/auth/google', payload).then((res) => {
+      return res.data
+    })
+  },
 }

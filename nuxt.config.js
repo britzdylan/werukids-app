@@ -7,6 +7,9 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  // server: {
+  //   default: localhost
+  // },
   env: {
     baseUrl: process.env.BASE_URL
       ? process.env.BASE_URL.trim()
@@ -56,6 +59,10 @@ export default {
     { src: '~/plugins/vee-validate' },
     {
       src: '~/plugins/alertify.js',
+      mode: 'client',
+    },
+    {
+      src: '~/plugins/vue-google-auth.js',
       mode: 'client',
     },
     {
@@ -111,6 +118,7 @@ export default {
           type: 'Bearer',
           maxAge: 0,
         },
+
         user: {
           property: 'user',
           autoFetch: true,
@@ -119,6 +127,16 @@ export default {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
           user: { url: '/user', method: 'get' },
+        },
+      },
+      google: {
+        clientId:
+          '1097932220764-4cudbu6oulaimtb2a85p9q49m5ffaf0h.apps.googleusercontent.com',
+        codeChallengeMethod: '',
+        responseType: 'code',
+        endpoints: {
+          token: 'http://localhost:8000/auth/google', // somm backend url to resolve your auth with google and give you the token back
+          userInfo: 'http://localhost:8000/user', // the endpoint to get the user info after you recived the token
         },
       },
     },

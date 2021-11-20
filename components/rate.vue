@@ -63,19 +63,18 @@
       <div class="flex flex-row items-center justify-center my-4">
         <template v-for="item in rating">
           <img
-            @mouseenter="changeRating(item)"
+            @click="setRating(item)"
             :key="item + '_id_empty'"
             src="/icons/star-empty.svg"
             :id="'star_empty_' + item"
-            class="mx-1"
+            class="mx-1 cursor-pointer"
           />
           <img
-            @mouseenter="changeRating(item)"
-            @mouseleave="resetRating(item)"
+            @click="setRating(item)"
             :key="item + '_id_fill'"
             src="/icons/star.svg"
             :id="'star_fill_' + item"
-            class="mx-1"
+            class="mx-1 cursor-pointer"
             style="display: none"
           />
         </template>
@@ -95,7 +94,7 @@
         >
           Submit
         </button>
-        <button v-show="this.loading" class="btn primary loading">
+        <button v-show="this.loading" class="btn primary loading mx-auto">
           <svg
             class="animate-spin h-6 w-6 text-white"
             xmlns="http://www.w3.org/2000/svg"
@@ -144,22 +143,49 @@ export default {
         emptyStar.style.display = 'none'
         fullStar.style.display = 'block'
       }
+
       this.payload.rating = id
       return true
     },
     resetRating(id) {
       console.log(id)
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 5; i > id; i--) {
         const emptyStar = document.getElementById(`star_empty_${i}`)
         const fullStar = document.getElementById(`star_fill_${i}`)
         emptyStar.style.display = 'block'
         fullStar.style.display = 'none'
       }
-
       return true
     },
-    submitRating() {
+    setRating(id) {
+      this.payload.rating = id
+      for (let i = 1; i <= id; i++) {
+        const emptyStar = document.getElementById(`star_empty_${i}`)
+        const fullStar = document.getElementById(`star_fill_${i}`)
+        emptyStar.style.display = 'none'
+        fullStar.style.display = 'block'
+      }
+      this.resetRating(id)
+    },
+    async submitRating() {
+      if (this.payload.rating == '') {
+        window.alertify.error('Please choose a rating')
+        return
+      }
       this.loading = true
+      try {
+        let res = await this.$store.dispatch('submitRating', this.payload)
+        if (res instanceof Error) throw new Error(res)
+        this.loading = false
+        window.alertify.success('Feedback Received')
+        this.$router.replace(this.$route.path)
+      } catch (error) {
+        log.error(error)
+        window.alertify.error(
+          'Oops something went wrong please try again later'
+        )
+        this.loading = false
+      }
       return true
     },
   },

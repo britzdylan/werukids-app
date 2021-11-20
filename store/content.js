@@ -2,6 +2,7 @@ const initialState = () => ({
   terms: null,
   languages: [],
   books: [],
+  categories: [],
 })
 
 export const state = initialState
@@ -16,6 +17,9 @@ export const getters = {
   getBooks(state) {
     return state.books
   },
+  getCategories(state) {
+    return state.categories
+  },
 }
 export const mutations = {
   setTerms(state, payload) {
@@ -27,6 +31,9 @@ export const mutations = {
   setLang(state, payload) {
     state.languages = payload
   },
+  setCategories(state, payload) {
+    state.categories = payload
+  },
 }
 export const actions = {
   async fetchTerms(context, payload) {
@@ -37,7 +44,10 @@ export const actions = {
   async fetchBooks(context, payload) {
     return await fetch(`${new URL(process.env.strapiUrl)}books`)
       .then((response) => response.json())
-      .then((data) => context.commit('setBooks', data))
+      .then((data) => {
+        context.commit('setBooks', data)
+        return data
+      })
   },
   async fetchBook(context, payload) {
     return await fetch(`${new URL(process.env.strapiUrl)}books/${payload}`)
@@ -50,5 +60,13 @@ export const actions = {
     return await fetch(`${new URL(process.env.strapiUrl)}languages`)
       .then((response) => response.json())
       .then((data) => context.commit('setLang', data))
+  },
+  async fetchCategories(context, payload) {
+    return await fetch(`${new URL(process.env.strapiUrl)}book-categories`)
+      .then((response) => response.json())
+      .then((data) => {
+        context.commit('setCategories', data)
+        return data
+      })
   },
 }

@@ -3,6 +3,7 @@
     v-if="this.account && this.account != null"
     class="p-4 grid grid-col-1 gap-12 lg:grid-cols-2 max-w-4xl mx-auto pb-24"
   >
+    <security />
     <div class="accountDetails">
       <div>
         <h1 class="font-display font-bold leading-none text-3xl">
@@ -128,6 +129,9 @@
       <router-link to="/account/notifications"
         >Notification preferences</router-link
       >
+      <p class="cursor-pointer text-lg" @click="this.updatePin">
+        Update security pin
+      </p>
     </section>
   </main>
 </template>
@@ -139,7 +143,13 @@ export default {
       return this.$auth.user
     },
   },
+  mounted() {
+    console.log(this.$router)
+  },
   methods: {
+    updatePin() {
+      this.$nuxt.$emit('security', true)
+    },
     calcActiveColor(key) {
       switch (key) {
         case 'active':
@@ -166,6 +176,26 @@ export default {
       const days = Math.ceil(difference / (1000 * 3600 * 24))
       return 7 - days > 0 ? 7 - days : 'Trail has ended'
     },
+  },
+  created() {
+    this.$nuxt.$on('securityPassed', () => {
+      console.log('securityPassed')
+    })
+  },
+  destroyed() {
+    this.$nuxt.$off('securityPassed')
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      console.log(from)
+      if (
+        from.matched.length == 0 ||
+        !from.matched[0].name.includes('account')
+      ) {
+        $nuxt.$emit('security')
+      }
+      // if()
+    })
   },
 }
 </script>

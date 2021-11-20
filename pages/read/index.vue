@@ -1,6 +1,7 @@
 <template>
   <main class="subpage pb-12">
-    <div v-show="this.showFilter" class="bookFilterContainer">
+    <loader v-if="this.loading" />
+    <!-- <div v-show="this.showFilter" class="bookFilterContainer">
       <div class="bookFilter">
         <h3 class="font-display font-bold mb-4">Filter By</h3>
         <p>Language</p>
@@ -74,8 +75,8 @@
           Apply
         </button>
       </div>
-    </div>
-    <header>
+    </div> -->
+    <header v-if="!this.loading">
       <img
         @click="this.goBack"
         class="h-6 w-6 cursor-pointer"
@@ -85,50 +86,35 @@
 
       <p>Read</p>
     </header>
-    <div class="lg:max-w-6xl lg:mx-auto p-4">
-      <div id="myBooks">
-        <header class="learnHeader">
-          <h3 class="learnTitle">My Books</h3>
-          <img
-            class="cursor-pointer"
-            @click="this.toggleMyBooks"
-            v-show="this.showMyBooks"
-            src="/icons/View.svg"
-            alt=""
-          />
-          <img
-            class="cursor-pointer"
-            @click="this.toggleMyBooks"
-            v-show="!this.showMyBooks"
-            src="/icons/Hide.svg"
-            alt=""
-          />
-        </header>
-
-        <main class="booksContainer" v-show="this.showMyBooks">
-          <template v-for="book in books">
-            <router-link
-              class="singleBook"
-              :key="book.id + '_mybooks'"
-              :to="`/read/${book.id}`"
-            >
-              <img :src="book.thumb" alt="" />
-              <div v-if="book.isRead" class="isread">
-                <img src="/icons/Initial.svg" alt="" />
-              </div>
-            </router-link>
-          </template>
-        </main>
-      </div>
+    <div v-if="!this.loading" class="lg:max-w-6xl lg:mx-auto p-4">
       <div id="allBooks">
         <header class="learnHeader">
-          <h3 class="learnTitle">All Books</h3>
-          <img
+          <!-- <h3 class="learnTitle">All Books</h3> -->
+          <div
+            id="categories"
+            class="hideScrollbar flex flex-row items-center w-full"
+          >
+            <template v-for="item in categories">
+              <div
+                @click="setSelectedCategory(item.id)"
+                :key="item.id + '_category'"
+              >
+                <div
+                  :class="selectedCategory == item.id ? 'selected' : ''"
+                  class="category"
+                >
+                  <img :src="`${strapiUrl}${item.cover.url}`" alt="" />
+                </div>
+                <p>{{ item.Title }}</p>
+              </div>
+            </template>
+          </div>
+          <!-- <img
             class="cursor-pointer"
             @click="() => (this.showFilter = true)"
             src="/icons/filter.svg"
             alt=""
-          />
+          /> -->
         </header>
         <div
           class="
@@ -142,21 +128,26 @@
           "
           id="bookFilters"
         >
-          <template v-for="(filter, index) in filters">
-            <span :key="index + '_filter'" class="pill">{{ filter }}</span>
+          <template v-for="(filter, index) in languages">
+            <span
+              @click="setSelectedLang(filter.id)"
+              :key="index + '_filter'"
+              :class="selectedLang == filter.id ? 'pillselected' : 'pill'"
+              >{{ filter.Title }}</span
+            >
           </template>
         </div>
         <div class="booksContainer">
-          <template v-for="book in books">
+          <template v-for="book in displayBooks">
             <router-link
               class="singleBook"
               :key="book.id + '_allbooks'"
               :to="`/read/${book.id}`"
             >
-              <img :src="book.thumb" alt="" />
-              <div v-if="book.isRead" class="isread">
+              <img :src="`${strapiUrl}${book.cover.url}`" alt="" />
+              <!-- <div v-if="book.isRead" class="isread">
                 <img src="/icons/Initial.svg" alt="" />
-              </div>
+              </div> -->
             </router-link>
           </template>
         </div>
@@ -169,48 +160,74 @@ export default {
   name: 'readBrowse',
   data() {
     return {
+      loading: true,
       showFilter: false,
       showMyBooks: false,
-      filters: [
-        'English',
-        'Afrikaans',
-        'Zulu',
-        'English',
-        'Afrikaans',
-        'Zulu',
-        'English',
-        'Afrikaans',
-        'Zulu',
-      ],
-      books: [
-        {
-          thumb:
-            'https://cdn.heyzine.com/files/uploaded/500b260ef6e61448e92b08ea76c8118901176fd1.pdf-thumb.jpg',
-          id: 1,
-          isRead: true,
-        },
-        {
-          thumb:
-            'https://cdn.heyzine.com/files/uploaded/500b260ef6e61448e92b08ea76c8118901176fd1.pdf-thumb.jpg',
-          id: 2,
-          isRead: false,
-        },
-        {
-          thumb:
-            'https://cdn.heyzine.com/files/uploaded/500b260ef6e61448e92b08ea76c8118901176fd1.pdf-thumb.jpg',
-          id: 3,
-          isRead: false,
-        },
-        {
-          thumb:
-            'https://cdn.heyzine.com/files/uploaded/500b260ef6e61448e92b08ea76c8118901176fd1.pdf-thumb.jpg',
-          id: 4,
-          isRead: false,
-        },
-      ],
+      selectedCategory: null,
+      selectedLang: null,
+      filteredBooks: [],
+      displayBooks: [],
     }
   },
+  computed: {
+    books() {
+      return this.$store.getters['content/getBooks']
+    },
+    languages() {
+      return this.$store.getters['content/getLanguages']
+    },
+    categories() {
+      return this.$store.getters['content/getCategories']
+    },
+    strapiUrl() {
+      return process.env.strapiUrl.trim()
+    },
+  },
+  mounted() {
+    this.getBooks()
+    this.getCategories()
+  },
   methods: {
+    async getBooks() {
+      this.loading = true
+      try {
+        let res = await this.$store.dispatch('content/fetchBooks')
+        if (res instanceof Error) throw new Error(res)
+        this.setSelectedLang(
+          this.$store.state.profile.currentProfile.primary_language
+        )
+        this.filteredBooks = []
+        res.map((item) => {
+          item.languages.map((lang) => {
+            if (lang.id == this.selectedLang) {
+              this.filteredBooks.push(item)
+            }
+          })
+        })
+        this.displayBooks = [...this.filteredBooks]
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(
+          'Oops something went wrong, please try again later'
+        )
+        this.loading = false
+      }
+    },
+    async getCategories() {
+      this.loading = true
+      try {
+        let res = await this.$store.dispatch('content/fetchCategories')
+        if (res instanceof Error) throw new Error(res)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(
+          'Oops something went wrong, please try again later'
+        )
+        this.loading = false
+      }
+    },
     applyFilters() {
       this.showFilter = false
     },
@@ -220,12 +237,47 @@ export default {
     toggleMyBooks() {
       this.showMyBooks = !this.showMyBooks
     },
+    setSelectedCategory(id) {
+      this.selectedCategory = id
+      if (id == null) {
+        this.displayBooks = [...this.filteredBooks]
+      } else {
+        this.displayBooks = this.filteredBooks.filter(
+          (item) => item.book_category.id == id
+        )
+      }
+    },
+    setSelectedLang(id) {
+      console.log(id)
+      this.selectedLang = id
+      this.filteredBooks = []
+      this.books.map((item) => {
+        item.languages.map((lang) => {
+          if (lang.id == id) {
+            this.filteredBooks.push(item)
+          }
+        })
+      })
+      this.setSelectedCategory(this.selectedCategory)
+    },
   },
 }
 </script>
 <style>
+#categories {
+  @apply w-full overflow-y-scroll;
+}
+.category {
+  @apply w-16 h-16 bg-primaryLight mr-12 cursor-pointer;
+
+  border-radius: 76% 51% 53% 58% / 57% 57% 53% 61%;
+}
+
+.selected {
+  @apply bg-secondary;
+}
 .booksContainer {
-  @apply grid lg:grid-cols-2 gap-4  gap-y-12 grid-cols-1 my-4 justify-items-center;
+  @apply grid lg:grid-cols-6 gap-4  gap-y-12 sm:grid-cols-4 grid-cols-2 my-4 justify-items-center;
 }
 .learnTitle {
   @apply font-display font-bold;
@@ -257,7 +309,12 @@ export default {
 }
 
 .pill {
-  @apply p-1 rounded-full w-24 text-center block bg-secondary mr-2 lg:my-2;
+  @apply p-1 rounded-full w-24 text-center block  bg-inputBg mr-2 lg:my-2 cursor-pointer;
+  min-width: 6rem;
+}
+
+.pillselected {
+  @apply p-1 rounded-full w-24 text-center block  bg-secondary mr-2 lg:my-2 cursor-pointer;
   min-width: 6rem;
 }
 

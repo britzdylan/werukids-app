@@ -4,7 +4,7 @@
     <div class="mb-12">
       <img class="h-12 mx-auto" src="/logo/main.svg" alt="" />
     </div>
-    <button class="google">
+    <button @click="this.googleSignUp" class="google">
       Sign up with google
       <svg
         width="36"
@@ -50,7 +50,28 @@
 <script>
 export default {
   layout: 'public',
+  methods: {
+    async googleSignUp() {
+      // this.$auth.loginWith('google')
+      const authCode = await this.$gAuth.getAuthCode()
+      // console.log(authCode)
+      try {
+        const res = await this.$store.dispatch('user/googleAuth', {
+          code: authCode,
+          redirect_uri: 'http://localhost:3000/login',
+        })
+        if (res instanceof Error) throw new Error(res)
+      } catch (error) {
+        log.error(error)
+      }
+      // const response = await this.$http.post(
+      //   'http://localhost:8000/auth/google',
+      //   { code: authCode, redirect_uri: 'postmessage' }
+      // )
+    },
+  },
 }
+// 5.0.0-1624817847.21691f1
 </script>
 <style>
 .google {

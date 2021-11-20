@@ -1,5 +1,6 @@
 <template>
   <div class="pb-24 lg:grid grid-cols-2 gap-8 max-w-3xl mt-24 mx-auto">
+    
     <router-link class="block col-span-2" to="/read"
       ><div class="learnCard">
         <p>Read</p>
