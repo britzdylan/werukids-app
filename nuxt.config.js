@@ -172,6 +172,6 @@ export default {
     publicPath: '/nuxt/',
   },
   generate: {
-    dir: 'dist',
+    dir: 'public',
   },
 }
