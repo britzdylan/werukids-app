@@ -7,7 +7,7 @@
     "staging": "SET BASE_URL=https://werukids-api-staging.herokuapp.com && SET STRAPI_URL=https://werukids-cms-rk6gu.ondigitalocean.app && nuxt",
     "build": "nuxt build",
     "start": "nuxt start nuxt generate",
-    "generate-staging": "nuxt generate --devtools"
+    "generate-staging": "nuxt generate --devtools",
     "generate": "nuxt generate"
   },
   "dependencies": {
