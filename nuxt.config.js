@@ -7,9 +7,7 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  // server: {
-  //   default: localhost
-  // },
+
   env: {
     baseUrl: process.env.BASE_URL
       ? process.env.BASE_URL.trim()
@@ -169,6 +167,5 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vee-validate/dist/rules'],
-    publicPath: '/nuxt/',
   },
 }
