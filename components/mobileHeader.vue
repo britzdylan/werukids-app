@@ -28,11 +28,5 @@ export default {
 }
 </script>
 <style>
-.mobileHeader {
-  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0 z-20;
-}
 
-.avatar {
-  filter: drop-shadow(0px 0px 2px #00ba77);
-}
 </style>

@@ -107,18 +107,5 @@ export default {
 }
 </script>
 <style>
-#mobileNav {
-  @apply flex flex-row justify-between items-center w-full lg:hidden bg-offwhite px-4 py-0 h-16 fixed bottom-0 z-10;
-}
 
-#mobileNav a {
-  @apply h-full w-1/3;
-}
-.mobileNavItem {
-  @apply w-full h-full flex flex-row items-center justify-center;
-}
-
-#menu {
-  @apply w-1/3;
-}
 </style>
