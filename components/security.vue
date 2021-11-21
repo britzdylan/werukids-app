@@ -12,8 +12,7 @@
       backdrop-filter backdrop-blur-lg
       bg-primaryLight
       z-70
-      md:flex
-      flex-row
+      flex flex-row
     "
   >
     <div class="bg-white w-auto p-12 h-auto rounded-lg m-auto">

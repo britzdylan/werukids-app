@@ -26,11 +26,13 @@
         <h2 class="mr-auto text-lg">Subscription</h2>
         <span class="flex flex-row items-center uppercase"
           ><div
-            :class="this.calcActiveColor(this.$auth.user.subscription_status)"
+            :class="
+              this.calcActiveColor(this.$auth.user.billing.subscription_status)
+            "
             class="h-3 w-3 rounded-full mr-2"
           ></div>
-          {{ this.account.subscription_status }}
-          <span v-if="this.account.subscription_status == 'trail'"
+
+          <span v-if="this.account.billing.subscription_status == 'trail'"
             >({{ this.calcTrailTime() }} Days left)</span
           ></span
         >
@@ -48,8 +50,8 @@
             style="padding: 1px"
             class="bg-secondaryLight rounded ring-2 ring-secondaryDark mr-2"
             >{{
-              this.account.subscription_status != 'trail'
-                ? this.account.subscription.plan
+              this.account.billing.subscription_status != 'trail'
+                ? this.account.billing.plan.name
                 : 'TRAIL'
             }}</span
           >Plan
@@ -57,8 +59,8 @@
         <p class="text-5xl font-bold leading-none mt-8">
           R
           {{
-            this.account.subscription_status != 'trail'
-              ? this.account.subscription.price
+            this.account.billing.subscription_status != 'trail'
+              ? this.account.billing.plan.amount / 100
               : 0
           }}
           <span class="text-sm">/p.m</span>
@@ -71,33 +73,38 @@
         <span class="flex flex-row items-center"
           ><div
             :class="
-              this.account.billing.card.active ? 'bg-success' : 'bg-error'
+              this.calcActiveColor(this.$auth.user.billing.subscription_status)
             "
             class="h-3 w-3 rounded-full mr-2 uppercase"
           ></div>
-          {{ this.account.billing.card.active ? 'ACTIVE' : 'INACTIVE' }}</span
-        >
+        </span>
       </header>
 
       <div class="subscription">
-        <img
-          @click="() => this.$router.push('/account/billing')"
-          src="/icons/Edit.svg"
-          class="absolute top-1 right-1 cursor-pointer"
-          alt=""
-        />
         <div class="mb-4">
           <small class="text-placeholder mb-2 block">Cardholder Name</small>
           <div class="flex flex-row items-center">
             <img class="mr-4" src="/icons/Profile.svg" alt="" />
-            <p>{{ this.account.billing.card.name }}</p>
+            <p>
+              {{
+                this.account.billing.authorization
+                  ? this.account.billing.authorization.account_name
+                  : ''
+              }}
+            </p>
           </div>
         </div>
         <div class="mb-4">
           <small class="text-placeholder mb-2 block">Card Number</small>
           <div class="flex flex-row items-center">
             <img class="mr-4" src="/icons/mastercard.svg" alt="" />
-            <p>{{ this.account.billing.card.number }}</p>
+            <p>
+              {{
+                this.account.billing.authorization
+                  ? this.account.billing.authorization.last4
+                  : ''
+              }}
+            </p>
           </div>
         </div>
         <div class="flex flex-row items-center">
@@ -106,8 +113,14 @@
             <div class="flex flex-row items-center">
               <img class="mr-4" src="/icons/Calandar.svg" alt="" />
               <p>
-                {{ this.account.billing.card.expiry.month }}/{{
-                  this.account.billing.card.expiry.year
+                {{
+                  this.account.billing.authorization
+                    ? this.account.billing.authorization.exp_month
+                    : ''
+                }}/{{
+                  this.account.billing.authorization
+                    ? this.account.billing.authorization.exp_year
+                    : ''
                 }}
               </p>
             </div>
@@ -167,7 +180,7 @@ export default {
       }
     },
     calcTrailTime() {
-      const start_date = this.account.subscription_started.toString()
+      const start_date = this.account.createdAt.toString()
       const today = new Date()
       console.log(today)
       const trailStarted = new Date(start_date)

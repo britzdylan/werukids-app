@@ -12,8 +12,35 @@
       <p>Manage Subscription</p>
     </header>
     <section v-if="this.subscriptions != null">
-      <p class="text-center mb-8">Update your Werukids Subscription plan</p>
-      <template v-for="item in subscriptions">
+      <p class="text-center mb-8">Your Werukids Subscription plan</p>
+
+      <div class="subscription cursor-pointer">
+        <p class="leading-none">
+          <span
+            class="
+              bg-secondaryLight
+              rounded
+              ring-2 ring-secondaryDark
+              mr-2
+              px-2
+            "
+            >{{
+              this.subscriptions.plan ? this.subscriptions.plan.name : 'Trail'
+            }}</span
+          >Plan
+        </p>
+        <p class="text-5xl font-bold leading-none mt-8">
+          R
+          {{
+            this.subscriptions.plan
+              ? Number(this.subscriptions.plan.amount) / 100
+              : '0'
+          }}
+          <span class="text-sm">/p.m</span>
+        </p>
+      </div>
+
+      <!-- <template v-for="item in subscriptions">
         <div :key="item.id" class="subscription cursor-pointer">
           <img
             @click="() => (showFeatures = !showFeatures)"
@@ -40,27 +67,24 @@
             </template>
           </div>
         </div>
-      </template>
+      </template> -->
     </section>
     <footer>
       <button
         @click="this.startSub"
         style=""
-        v-if="this.$auth.user.subscription_status != 'active'"
+        v-if="this.$auth.user.billing.subscription_status != 'active'"
         class="btn primary"
       >
-        Start Subscription
+        Start Pro Subscription for R99 p.m
       </button>
 
       <button
-        @click="this.pauseSub"
-        v-if="
-          this.$auth.user.subscription_status != 'paused' &&
-          this.$auth.user.subscription_status != 'trail'
-        "
+        @click="this.manageSub"
+        v-if="this.$auth.user.billing.subscription_status != 'trail'"
         class="btn outline"
       >
-        Pause Subscription
+        Manage Subscription
       </button>
     </footer>
   </main>
@@ -74,33 +98,52 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       showFeatures: true,
       subscriptions: null,
     }
   },
   mounted() {
     this.getSubscriptions()
+    if (this.$route.query.reference) {
+      this.catchUrl()
+    }
   },
   methods: {
-    async pauseSub() {
+    async catchUrl() {
+      try {
+        this.loading = true
+        let res = await this.$store.dispatch('subscriptions/verifyPayment', {
+          reference: this.$route.query.reference,
+        })
+        if (res instanceof Error) throw new Error(res)
+        await this.$auth.fetchUser()
+        this.getSubscriptions()
+        this.$router.replace(this.$route.path)
+        window.alertify.success('Subscription successfully activated')
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
+    async manageSub() {
       window.alertify
         .confirm(
-          'Are you sure you want to pause your subscription',
+          'You will receive an email with a link to manage your subscription',
           async () => {
             try {
               this.loading = true
               let res = await this.$store.dispatch(
-                'subscriptions/updateSubscription',
+                'subscriptions/manageSubscription',
                 {
-                  subscription_status: 'paused',
-                  subscription_started: new Date().toISOString(),
+                  code: this.$auth.user.billing.paystack_customer_code,
                 }
               )
+
               if (res instanceof Error) throw new Error(res)
-              res = await this.$auth.fetchUser()
-              if (res instanceof Error) throw new Error(res)
-              window.alertify.success('subscription successfully updated')
+              window.alertify.success('Subscription link successfully sent')
               this.loading = false
             } catch (error) {
               console.log(error)
@@ -112,67 +155,59 @@ export default {
         .set('labels', { ok: 'CONTINUE', cancel: 'Cancel' })
     },
     async startSub() {
-      // check if pyment details are added, if not go to add it
-      if (!this.$auth.user.billing.card.active) {
-        window.alertify
-          .confirm('Please add your card details', () => {
-            this.$router.replace('/account/billing')
-            return
-          })
-          .set('labels', { ok: 'ADD CARD', cancel: 'Cancel' })
-      } else {
-        window.alertify
-          .confirm(
-            'Are you sure you want to start your subscription',
-            async () => {
-              try {
-                this.loading = true
-                let res = await this.$store.dispatch(
-                  'subscriptions/updateSubscription',
-                  {
-                    subscription_status: 'active',
-                    subscription_started: new Date().toISOString(),
-                  }
-                )
-                if (res instanceof Error) throw new Error(res)
-                res = await this.$auth.fetchUser()
-                if (res instanceof Error) throw new Error(res)
-                window.alertify.success('subscription successfully updated')
-                this.loading = false
-              } catch (error) {
-                console.log(error)
-                window.alertify.error(error.response.data)
-                this.loading = false
-              }
+      window.alertify
+        .confirm(
+          'Are you sure you want to start your subscription, you will be redirected to paystack.',
+          async () => {
+            try {
+              this.loading = true
+              let res = await this.$store.dispatch(
+                'subscriptions/initSubscription',
+                {
+                  amount: '9900',
+                  callback_url: 'http://localhost:3000/account/subscription',
+                  plan: 'PLN_eehh7l4wbls3ys8',
+                }
+              )
+              if (res instanceof Error) throw new Error(res)
+              window.location.replace(res.data.authorization_url)
+              this.loading = false
+            } catch (error) {
+              console.log(error)
+              window.alertify.error(error.response.data)
+              this.loading = false
             }
-          )
-          .set('labels', { ok: 'CONTINUE', cancel: 'Cancel' })
-      }
+          }
+        )
+        .set('labels', { ok: 'CONTINUE', cancel: 'Cancel' })
+
       // if it is, confirm start date
     },
     goBack() {
       this.$router.go(-1)
     },
     async getSubscriptions() {
-      this.loading = true
-      try {
-        let res = await this.$store.dispatch('subscriptions/getSubscriptions')
-        if (res instanceof Error) throw new Error(res)
-        this.loading = false
-        this.subscriptions = res
-        this.selectedSub = this.$auth.user.subscription
-      } catch (error) {
-        console.log(error)
-        window.alertify.error(error.response.data)
-        this.loading = false
-      }
+      this.subscriptions = this.$auth.user.billing
+      this.loading = false
+      // this.loading = true
+      // try {
+      //   let res = await this.$store.dispatch('subscriptions/getSubscriptions')
+      //   if (res instanceof Error) throw new Error(res)
+      //   this.loading = false
+      //   this.subscriptions = res
+      //   this.selectedSub = this.$auth.user.subscription
+      // } catch (error) {
+      //   console.log(error)
+      //   window.alertify.error(error.response.data)
+      //   this.loading = false
+      // }
     },
   },
 }
 </script>
 <style>
 .subscription {
-  @apply w-full bg-inputBg rounded-md p-4 relative ring ring-secondaryDark;
+  @apply w-full  bg-inputBg rounded-md p-4 relative ring ring-secondaryDark;
 }
 
 .feature {

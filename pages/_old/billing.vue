@@ -267,9 +267,9 @@ export default {
     getBillingDetails() {
       let user = this.$auth.user.billing
       this.card = {
-        number: user.card.number,
-        cvv: user.card.cvv,
-        name: user.card.name,
+        number:  user.authorization ? user.authorization.last4 : '',
+        cvv:  '***',
+        name:  user.authorization ? user.card.name : '',
         expiry: {
           month: user.card.expiry.month,
           year: user.card.expiry.year,
