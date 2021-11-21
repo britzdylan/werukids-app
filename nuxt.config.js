@@ -171,7 +171,4 @@ export default {
     transpile: ['vee-validate/dist/rules'],
     publicPath: '/nuxt/',
   },
-  generate: {
-    dir: 'public',
-  },
 }
