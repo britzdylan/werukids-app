@@ -94,6 +94,13 @@
             id="categories"
             class="hideScrollbar flex flex-row items-center w-full"
           >
+            <div @click="setSelectedCategory()" class="">
+              <div class="category">
+                <img src="/" alt="" />
+              </div>
+              <p class="text-center">All</p>
+            </div>
+
             <template v-for="item in categories">
               <div
                 @click="setSelectedCategory(item.id)"
@@ -105,7 +112,7 @@
                 >
                   <img :src="`${strapiUrl}${item.cover.url}`" alt="" />
                 </div>
-                <p>{{ item.Title }}</p>
+                <p class="text-center">{{ item.Title }}</p>
               </div>
             </template>
           </div>
@@ -238,10 +245,14 @@ export default {
       this.showMyBooks = !this.showMyBooks
     },
     setSelectedCategory(id) {
-      this.selectedCategory = id
-      if (id == null) {
+      console.log(id)
+
+      if (!id) {
+        console.log('No ID')
+        this.selectedCategory = null
         this.displayBooks = [...this.filteredBooks]
       } else {
+        this.selectedCategory = id
         this.displayBooks = this.filteredBooks.filter(
           (item) => item.book_category.id == id
         )
@@ -268,7 +279,7 @@ export default {
   @apply w-full overflow-y-scroll;
 }
 .category {
-  @apply w-16 h-16 bg-primaryLight mr-12 cursor-pointer;
+  @apply w-16 h-16 bg-primaryLight mx-6 cursor-pointer;
 
   border-radius: 76% 51% 53% 58% / 57% 57% 53% 61%;
 }

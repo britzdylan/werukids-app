@@ -9,8 +9,11 @@ export default {
   mounted() {
     if (!this.$auth.loggedIn) {
       this.$router.replace('/login')
+      return
     }
+
     this.getUser()
+
     this.getLanguages()
   },
   methods: {

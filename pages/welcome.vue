@@ -4,7 +4,7 @@
     <div class="mb-12">
       <img class="h-12 mx-auto" src="/logo/main.svg" alt="" />
     </div>
-    <button @click="this.googleSignUp" class="google">
+    <!-- <button @click="this.googleSignUp" class="google">
       Sign up with google
       <svg
         width="36"
@@ -31,7 +31,7 @@
           fill="#1976D2"
         />
       </svg>
-    </button>
+    </button> -->
     <router-link to="/signup">
       <button class="btn primary mt-auto block mx-auto">
         Sign up with email

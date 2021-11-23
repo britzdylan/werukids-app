@@ -54,7 +54,7 @@
         />
       </div>
 
-      <div @click="() => this.$auth.logout()">
+      <div @click="this.logout">
         <img class="w-6 h-6 cursor-pointer" src="/icons/Logout.svg" alt="" />
       </div>
     </div>
@@ -74,6 +74,13 @@ export default {
     },
   },
   methods: {
+    logout() {
+      window.alertify
+        .confirm('Are you sure you want to log out', async () => {
+          await this.$auth.logout()
+        })
+        .set('labels', { ok: 'LOGOUT', cancel: 'Cancel' })
+    },
     hideMenu() {
       this.showMenu = false
     },
@@ -95,6 +102,4 @@ export default {
   },
 }
 </script>
-<style>
-
-</style>
+<style></style>

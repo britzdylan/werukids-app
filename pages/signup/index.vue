@@ -81,7 +81,7 @@
       <ValidationObserver v-slot="{ invalid }" slim ref="addPassword">
         <ValidationProvider
           v-if="!showPassword"
-          rules="required"
+          rules="required|passLength"
           name="password"
           v-slot="{ errors }"
         >
@@ -115,12 +115,12 @@
                 />
               </svg>
             </div>
-            <small class="text-error">{{ errors[0] }}</small>
+            <small class="text-error">{{ errors.toString() }}</small>
           </span>
         </ValidationProvider>
         <ValidationProvider
           v-if="showPassword"
-          rules="required"
+          rules="required|passLength"
           name="password"
           v-slot="{ errors }"
         >
@@ -161,7 +161,7 @@
                 />
               </svg>
             </div>
-            <small class="text-error">{{ errors[0] }}</small>
+            <small class="text-error">{{ errors.toString() }}</small>
           </span>
         </ValidationProvider>
       </ValidationObserver>
@@ -312,24 +312,42 @@
           day free trail
         </p>
         <button
+          @click="() => this.$router.replace('/login')"
           v-if="this.step == 9"
-          @click="nextStep"
           class="btn primary mt-auto block mx-auto"
         >
-          Add Payment Details
+          Login to your account
         </button>
-        <button
+        <!-- <button
           v-if="this.step == 9"
-          @click="nextStep"
+          @click="() => this.$router.replace('/')"
           class="btn outline block mx-auto"
         >
           Start 7 day free trail
-        </button>
+        </button> -->
       </div>
     </div>
     <footer v-if="this.step < 9">
-      <button v-show="!this.loading" @click="nextStep" class="btn primary">
+      <button
+        v-show="!this.loading && this.step != 2 && this.step != 8"
+        @click="nextStep"
+        class="btn primary"
+      >
         Next
+      </button>
+      <button
+        v-show="!this.loading && this.step == 2 && this.step != 8"
+        @click="nextStep"
+        class="btn primary"
+      >
+        Verify
+      </button>
+      <button
+        v-show="!this.loading && this.step == 8"
+        @click="nextStep"
+        class="btn primary"
+      >
+        I Accept
       </button>
       <button v-show="this.loading" class="btn primary loading">
         <svg
@@ -621,7 +639,6 @@ export default {
         this.loading = false
       }
     },
-  
   },
 }
 

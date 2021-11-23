@@ -134,6 +134,7 @@ body {
 
 .btn {
   @apply text-base  rounded-full text-title h-16 font-medium transition duration-300 ease-in-out w-full lg:w-96 my-2;
+  min-height: 4rem;
 }
 
 .btn.primary {

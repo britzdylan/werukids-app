@@ -21,12 +21,14 @@ export default {
   name: 'mobileHeader',
   computed: {},
   methods: {
-    async logout() {
-      await this.$auth.logout()
+    logout() {
+      window.alertify
+        .confirm('Are you sure you want to log out', async () => {
+          await this.$auth.logout()
+        })
+        .set('labels', { ok: 'LOGOUT', cancel: 'Cancel' })
     },
   },
 }
 </script>
-<style>
-
-</style>
+<style></style>
