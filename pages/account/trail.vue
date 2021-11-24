@@ -4,8 +4,7 @@
       <img class="h-12 mx-auto" src="/logo/main.svg" alt="" />
     </div>
     <p class="text-center mt-12">
-      Your 7 day trail is over, please activate your account to keep your kids
-      learning
+      Please activate your account to keep your kids learning
     </p>
     <img
       class="w-9/12 lg:w-72 mx-auto mt-auto lg:mt-0"
@@ -24,10 +23,19 @@
         mt-0
       "
     >
-      <button style="margin-top: 0" class="btn primary block mx-auto">
+      <button
+        @click="() => this.$router.replace('/account/subscription')"
+        style="margin-top: 0"
+        class="btn primary block mx-auto"
+      >
         Activate Subscription
       </button>
-      <button class="btn outline block mx-auto">My Account</button>
+      <button
+        @click="() => this.$router.replace('/account/')"
+        class="btn outline block mx-auto"
+      >
+        My Account
+      </button>
     </div>
   </div>
 </template>

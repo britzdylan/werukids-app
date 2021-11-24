@@ -44,7 +44,7 @@
         </template>
         <div
           @click="this.addProfile"
-          v-if="this.profiles.length < 5"
+          v-if="this.profiles.length < 4"
           class="
             h-6
             w-6
@@ -197,7 +197,7 @@ export default {
       context: 'Add',
       step: 0,
       childs_name: '',
-      age: ['1', '2', '3', '4', '5', '6', '7', '8+'],
+      age: ['3', '4', '5', '6', '7', '8+'],
       avatars: [
         'boy_1',
         'boy_2',
@@ -226,9 +226,29 @@ export default {
     },
   },
   mounted() {
+    if (this.$auth.user.billing.subscription_status == 'suspended') {
+      this.$router.replace('/account/trail')
+    }
     this.fetchContent()
+    this.calcTrailTime()
   },
   methods: {
+    calcTrailTime() {
+      if (this.$auth.user.billing.subscription_status == 'trail') {
+        const start_date = this.$auth.user.createdAt.toString()
+        const today = new Date()
+        console.log(today)
+        const trailStarted = new Date(start_date)
+
+        const difference = today.getTime() - trailStarted.getTime()
+        const days = Math.ceil(difference / (1000 * 3600 * 24))
+        console.log(days)
+        const active = 7 - days > 0 ? true : false
+        if (!active) {
+          this.$router.replace('/account/trail')
+        }
+      }
+    },
     async fetchContent() {
       try {
         let res = await this.$store.dispatch('content/fetchLang')

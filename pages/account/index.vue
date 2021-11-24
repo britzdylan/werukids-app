@@ -33,7 +33,7 @@
           ></div>
 
           <span v-if="this.account.billing.subscription_status == 'trail'"
-            >({{ this.calcTrailTime() }} Days left)</span
+            >({{ this.calcTrailTime() }} )</span
           ></span
         >
       </header>
@@ -156,9 +156,7 @@ export default {
       return this.$auth.user
     },
   },
-  mounted() {
-    console.log(this.$router)
-  },
+  mounted() {},
   methods: {
     updatePin() {
       this.$nuxt.$emit('security', true)
@@ -185,9 +183,9 @@ export default {
       console.log(today)
       const trailStarted = new Date(start_date)
       console.log(trailStarted)
-      const difference = trailStarted.getTime() - today.getTime()
+      const difference = today.getTime() - trailStarted.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
-      return 7 - days > 0 ? 7 - days : 'Trail has ended'
+      return 7 - days > 0 ? 7 - days + ' Days left' : 'Trail has ended'
     },
   },
   created() {

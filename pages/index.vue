@@ -1,6 +1,5 @@
 <template>
   <div class="pb-24 lg:grid grid-cols-2 gap-8 max-w-3xl mt-24 mx-auto">
-    
     <router-link class="block col-span-2" to="/read"
       ><div class="learnCard">
         <p>Read</p>
@@ -21,6 +20,30 @@
 <script>
 export default {
   layout: 'home',
+  mounted() {
+    if (this.$auth.user.billing.subscription_status == 'suspended') {
+      this.$router.replace('/account/trail')
+    }
+    this.calcTrailTime()
+  },
+  methods: {
+    calcTrailTime() {
+      if (this.$auth.user.billing.subscription_status == 'trail') {
+        const start_date = this.$auth.user.createdAt.toString()
+        const today = new Date()
+        console.log(today)
+        const trailStarted = new Date(start_date)
+
+        const difference = today.getTime() - trailStarted.getTime()
+        const days = Math.ceil(difference / (1000 * 3600 * 24))
+        console.log(days, 'days')
+        const active = 7 - days > 0 ? true : false
+        if (!active) {
+          this.$router.replace('/account/trail')
+        }
+      }
+    },
+  },
 }
 </script>
 

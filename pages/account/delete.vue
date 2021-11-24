@@ -85,7 +85,10 @@ export default {
           async () => {
             this.loading = true
             try {
-              let res = await this.$store.dispatch('user/deleteAccount')
+              let res = await this.$store.dispatch('user/deleteAccount', {
+                code: '',
+                token: '',
+              })
               if (res instanceof Error) throw new Error(res)
               window.alertify.success('Account has been deleted successfully')
               this.$auth.logout()

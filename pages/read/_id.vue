@@ -60,11 +60,31 @@ export default {
     }
   },
   mounted() {
+    if (this.$auth.user.billing.subscription_status == 'suspended') {
+      this.$router.replace('/account/trail')
+    }
     this.orientation = window.screen.orientation.type
     window.addEventListener('orientationchange', this.handleOrientationChange)
     this.fetchBook()
+    this.calcTrailTime()
   },
   methods: {
+    calcTrailTime() {
+      if (this.$auth.user.billing.subscription_status == 'trail') {
+        const start_date = this.$auth.user.createdAt.toString()
+        const today = new Date()
+        console.log(today)
+        const trailStarted = new Date(start_date)
+
+        const difference = today.getTime() - trailStarted.getTime()
+        const days = Math.ceil(difference / (1000 * 3600 * 24))
+        console.log(days)
+        const active = 7 - days > 0 ? true : false
+        if (!active) {
+          this.$router.replace('/account/trail')
+        }
+      }
+    },
     handleOrientationChange() {
       this.orientation = window.screen.orientation.type
       //   if (orientation === 'portrait-primary') {

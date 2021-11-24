@@ -69,7 +69,9 @@
           </span>
         </ValidationProvider>
       </ValidationObserver>
-      <button class="btn" @click="this.resendCode">Resend Code</button>
+      <button class="btn block mx-auto" @click="this.resendCode">
+        Resend Code
+      </button>
     </section>
     <!-- ================================choose password ================================= -->
     <section v-show="this.step == 3">
@@ -395,7 +397,7 @@ export default {
       showPassword: true,
       childs_name: '',
       step: 1,
-      age: ['1', '2', '3', '4', '5', '6', '7', '8+'],
+      age: ['3', '4', '5', '6', '7', '8+'],
       avatars: [
         'boy_1',
         'boy_2',
@@ -641,8 +643,6 @@ export default {
     },
   },
 }
-
-// TODO login user after successful signup
 </script>
 
 <style></style>

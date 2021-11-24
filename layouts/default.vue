@@ -11,10 +11,10 @@ export default {
       this.$router.replace('/login')
       return
     }
-
     this.getUser()
 
     this.getLanguages()
+   
   },
   methods: {
     async getUser() {
