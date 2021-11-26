@@ -86,8 +86,9 @@ export default {
             this.loading = true
             try {
               let res = await this.$store.dispatch('user/deleteAccount', {
-                code: '',
-                token: '',
+                data: {
+                  code: this.$auth.user.billing.paystack_customer_code,
+                },
               })
               if (res instanceof Error) throw new Error(res)
               window.alertify.success('Account has been deleted successfully')
