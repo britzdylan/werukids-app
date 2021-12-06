@@ -81,27 +81,26 @@ export default {
 
 .bg-pic {
   @apply px-4 py-2 h-full flex flex-col justify-start lg:justify-center;
-  background-image: url('/images/point-xsmall.png');
+  background-image: url('/images/point-small.png');
   background-repeat: no-repeat;
-  background-position: right bottom;
-  background-size: contain;
+  background-position: center;
+  background-size: cover;
 }
 
 @media (min-width: 640px) {
   .bg-pic {
     background-image: url('/images/point-small.png');
     background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: contain;
+    background-position: right;
+    background-size: cover;
   }
 }
 
 @media (min-width: 768px) {
   .bg-pic {
     background-image: url('/images/point.png');
-    background-position: right bottom;
-
-    background-size: contain;
+    background-position: center;
+    background-size: cover;
   }
 }
 </style>

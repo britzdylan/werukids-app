@@ -9,9 +9,55 @@
         alt=""
       />
 
-      <p>{{ this.book.Title }}</p>
+      <p>Let's Read</p>
     </header>
     <!-- {{ this.book.url }} -->
+    <!-- <div v-if="!this.loading && !this.isReading" class="p-2">
+      <div class="h-64 w-64 mx-auto rounded-full">
+        <img
+          :src="
+            `https://werukids-cms-rk6gu.ondigitalocean.app` +
+            this.book.cover.url
+          "
+          alt=""
+          class="object-cover"
+        />
+      </div>
+
+      <h3 class="font-display text-center mb-8">{{ this.book.Title }}</h3>
+      <button @click="initReading" class="btn primary mb-12 block mx-auto">
+        Read Book
+      </button>
+      <div
+        id="preBook"
+        class="
+          mx-auto
+          rounded-md
+          shadow-lg
+          p-4
+          w-full
+          mt-12
+          bg-white
+          lg:max-w-lg
+        "
+      >
+        <div class="bookDetails">
+          <p class="font-bold opacity-60">Book Collection</p>
+          <p class="mb-4">{{ this.book.book_category.Title }}</p>
+          <p class="font-bold opacity-60">Book Description</p>
+          <p>Lorem Ipsum</p>
+          <small class="text-center font-bold mt-8 block"
+            >Complete this book to earn</small
+          >
+          <div class="flex flex-row items-center justify-center mt-4">
+            <img src="/icons/star.svg" class="mx-1 cursor-pointer" />
+            <img src="/icons/star.svg" class="mx-1 cursor-pointer" />
+            <img src="/icons/star.svg" class="mx-1 cursor-pointer" />
+          </div>
+        </div>
+      </div>
+    </div> -->
+
     <iframe
       v-if="!this.loading"
       id="book"
@@ -35,7 +81,7 @@
         justify-center
         md:hidden
       "
-      v-show="this.orientation == 'portrait-primary'"
+      v-show="this.orientation == 'portrait-primary' && this.isReading"
     >
       <h4 class="font=bold text-center font-display">
         Please Rotate your screen
@@ -53,6 +99,7 @@ export default {
   },
   data() {
     return {
+      isReading: false,
       loading: true,
       book: null,
       orientation: null,
@@ -69,6 +116,17 @@ export default {
     this.calcTrailTime()
   },
   methods: {
+    initReading() {
+      this.isReading = true
+      // TODO start countdown function for profile tracking
+      // 7sec x everypage of the book
+      // send xhr
+      const pages = 2
+      const time = pages * 7 * 1000
+      setTimeout(function () {
+        // alert('Hello')
+      }, time)
+    },
     calcTrailTime() {
       if (this.$auth.user.billing.subscription_status == 'trail') {
         const start_date = this.$auth.user.createdAt.toString()

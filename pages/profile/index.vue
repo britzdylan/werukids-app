@@ -29,7 +29,7 @@
         <template v-for="item in profiles">
           <div
             :key="'profile_' + item._id"
-            class="selectedAvatar w-full relative"
+            class="selectedAvatar w-full relative cursor-pointer"
             @click="profileOptions(item)"
           >
             <img
@@ -54,6 +54,7 @@
             items-center
             justify-center
             selectedAvatar
+            cursor-pointer
           "
         >
           <img class="w-4 h-4 m-auto" src="/icons/Plus.svg" alt="" />
