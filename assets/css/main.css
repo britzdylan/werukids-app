@@ -337,7 +337,7 @@ textarea {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-  @apply border-secondaryDark h-4 w-2;
+  @apply border-primary h-4 w-2;
 }
 
 .hideScrollbar::-webkit-scrollbar {
@@ -367,7 +367,7 @@ textarea {
 }
 
 .activeLink {
-  @apply text-secondaryDark;
+  @apply text-primary;
 }
 
 .moreMenu {

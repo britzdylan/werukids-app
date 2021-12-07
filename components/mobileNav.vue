@@ -93,8 +93,8 @@ export default {
   name: 'mobileNav',
   data() {
     return {
-      activeFill: '#FFDD75',
-      activeStroke: '#9A8032',
+      activeFill: '#FFC000',
+      activeStroke: '#FFC000',
       idle: '#8FB6E9',
     }
   },
