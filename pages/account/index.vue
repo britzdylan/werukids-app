@@ -33,7 +33,7 @@
           ></div>
 
           <span v-if="this.account.billing.subscription_status == 'trail'"
-            >({{ this.calcTrailTime() }} Days left)</span
+            >({{ this.calcTrailTime() }} )</span
           ></span
         >
       </header>
@@ -81,7 +81,7 @@
       </header>
 
       <div class="subscription">
-        <div class="mb-4">
+        <!-- <div class="mb-4">
           <small class="text-placeholder mb-2 block">Cardholder Name</small>
           <div class="flex flex-row items-center">
             <img class="mr-4" src="/icons/Profile.svg" alt="" />
@@ -93,7 +93,7 @@
               }}
             </p>
           </div>
-        </div>
+        </div> -->
         <div class="mb-4">
           <small class="text-placeholder mb-2 block">Card Number</small>
           <div class="flex flex-row items-center">
@@ -136,7 +136,7 @@
       </div>
     </section>
     <section class="extraLinks">
-      <router-link to="/account/transactions">Transaction History</router-link>
+      <!-- <router-link to="/account/transactions">Transaction History</router-link> -->
       <router-link to="/account/delete">Delete My Account</router-link>
       <router-link to="/account/export">Export my data</router-link>
       <router-link to="/account/notifications"
@@ -156,9 +156,7 @@ export default {
       return this.$auth.user
     },
   },
-  mounted() {
-    console.log(this.$router)
-  },
+  mounted() {},
   methods: {
     updatePin() {
       this.$nuxt.$emit('security', true)
@@ -185,9 +183,9 @@ export default {
       console.log(today)
       const trailStarted = new Date(start_date)
       console.log(trailStarted)
-      const difference = trailStarted.getTime() - today.getTime()
+      const difference = today.getTime() - trailStarted.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
-      return 7 - days > 0 ? 7 - days : 'Trail has ended'
+      return 7 - days > 0 ? 7 - days + ' Days left' : 'Trail has ended'
     },
   },
   created() {

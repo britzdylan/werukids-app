@@ -165,7 +165,7 @@ export default {
                 'subscriptions/initSubscription',
                 {
                   amount: '9900',
-                  callback_url: 'http://localhost:3000/account/subscription',
+                  callback_url: `${process.env.appUrl}/account/subscription`,
                   plan: 'PLN_eehh7l4wbls3ys8',
                 }
               )

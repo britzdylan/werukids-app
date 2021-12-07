@@ -1,6 +1,7 @@
 <template>
   <main class="subpage">
-    <header>
+    <loader v-if="this.loading" />
+    <header v-if="!this.loading">
       <img
         @click="this.goBack"
         class="h-6 w-6 cursor-pointer"
@@ -10,7 +11,7 @@
 
       <p>Transaction History</p>
     </header>
-    <section>
+    <section v-if="!this.loading">
       <template v-for="item in transactions">
         <div :key="item.id" class="transactionPill">
           <p>{{ item.transaction_date }}</p>
@@ -35,15 +36,31 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
+      transactions: [],
     }
   },
-  computed: {
-    transactions() {
-      return this.$auth.user.billing.transaction_history
-    },
+  mounted() {
+    this.getTransaction()
   },
   methods: {
+    async getTransaction() {
+      try {
+        let res = await this.$store.dispatch('subscriptions/getTransHistory', {
+          code: this.$auth.user.billing.paystack_customer_code,
+        })
+
+        if (res instanceof Error) throw new Error(res)
+        this.transactions = res
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        window.alertify.error(
+          'Oops something went wrong, please try again later'
+        )
+        this.loading = false
+      }
+    },
     exportItem() {
       return true
     },

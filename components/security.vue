@@ -16,7 +16,11 @@
     "
   >
     <div class="bg-white w-auto p-12 h-auto rounded-lg m-auto">
-      <h4 class="font-display font-bold">Parents Only</h4>
+      <div class="flex flex-row items-center justify-between">
+        <h4 class="font-display font-bold">Parents Only</h4>
+        <img @click="() => this.$router.go(-1)" src="/icons/Close.svg" alt="" />
+      </div>
+
       <span class="input">
         <label v-if="!this.newPin" for="name">Enter your secret pin</label>
         <label v-if="this.newPin" for="name">Create a new secret pin</label>
@@ -114,4 +118,3 @@ export default {
   },
 }
 </script>
-<style scoped></style>

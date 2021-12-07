@@ -49,7 +49,7 @@
             <div>
               <input
                 @input="handleChange('code')"
-                type="text"
+                type="number"
                 placeholder="1234"
                 name="code"
                 autocomplete
@@ -60,7 +60,9 @@
           </span>
         </ValidationProvider>
       </ValidationObserver>
-      <button class="btn mx-auto block">Resend Code</button>
+      <button @click="requestReset(true)" class="btn mx-auto block">
+        Resend Code
+      </button>
     </section>
     <section v-show="this.step == 3">
       <p class="text-center">
@@ -71,7 +73,7 @@
       <ValidationObserver v-slot="{ invalid }" slim ref="addPassword">
         <ValidationProvider
           v-if="!showPassword"
-          rules="required"
+          rules="required|passLength"
           name="password"
           v-slot="{ errors }"
         >
@@ -110,7 +112,7 @@
         </ValidationProvider>
         <ValidationProvider
           v-if="showPassword"
-          rules="required"
+          rules="required|passLength"
           name="password"
           v-slot="{ errors }"
         >
@@ -213,6 +215,7 @@ export default {
       password: '',
       code: '',
       showPassword: true,
+      resent: false,
     }
   },
   methods: {
@@ -256,7 +259,7 @@ export default {
           break
       }
     },
-    async requestReset() {
+    async requestReset(resend) {
       this.loading = true
       try {
         const res = await this.$store.dispatch('user/reset', {
@@ -265,6 +268,9 @@ export default {
 
         if (res instanceof Error) throw new Error(res)
         this.step = 2
+        if (resend) {
+          window.alertify.success('Code has been resent')
+        }
         this.loading = false
       } catch (error) {
         console.log(error)

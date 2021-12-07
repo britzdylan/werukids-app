@@ -29,26 +29,22 @@
         <template v-for="item in profiles">
           <div
             :key="'profile_' + item._id"
-            class="selectedAvatar w-full relative"
+            class="selectedAvatar w-full relative cursor-pointer"
+            @click="profileOptions(item)"
           >
             <img
               v-show="showEdit"
               src="/icons/Edit.svg"
               class="h-6 w-6 absolute top-0 right-0 cursor-pointer"
               alt=""
-              @click="editProfile(item)"
             />
-            <img
-              @click="switchProfile(item)"
-              :src="`/avatars/${item.avatar}.svg`"
-              alt=""
-            />
+            <img :src="`/avatars/${item.avatar}.svg`" alt="" />
             <p class="text-center">{{ item.name }}</p>
           </div>
         </template>
         <div
           @click="this.addProfile"
-          v-if="this.profiles.length < 5"
+          v-if="this.profiles.length < 4"
           class="
             h-6
             w-6
@@ -58,6 +54,7 @@
             items-center
             justify-center
             selectedAvatar
+            cursor-pointer
           "
         >
           <img class="w-4 h-4 m-auto" src="/icons/Plus.svg" alt="" />
@@ -201,7 +198,7 @@ export default {
       context: 'Add',
       step: 0,
       childs_name: '',
-      age: ['1', '2', '3', '4', '5', '6', '7', '8+'],
+      age: ['3', '4', '5', '6', '7', '8+'],
       avatars: [
         'boy_1',
         'boy_2',
@@ -230,9 +227,29 @@ export default {
     },
   },
   mounted() {
+    if (this.$auth.user.billing.subscription_status == 'suspended') {
+      this.$router.replace('/account/trail')
+    }
     this.fetchContent()
+    this.calcTrailTime()
   },
   methods: {
+    calcTrailTime() {
+      if (this.$auth.user.billing.subscription_status == 'trail') {
+        const start_date = this.$auth.user.createdAt.toString()
+        const today = new Date()
+        console.log(today)
+        const trailStarted = new Date(start_date)
+
+        const difference = today.getTime() - trailStarted.getTime()
+        const days = Math.ceil(difference / (1000 * 3600 * 24))
+        console.log(days)
+        const active = 7 - days > 0 ? true : false
+        if (!active) {
+          this.$router.replace('/account/trail')
+        }
+      }
+    },
     async fetchContent() {
       try {
         let res = await this.$store.dispatch('content/fetchLang')
@@ -317,10 +334,20 @@ export default {
     setSelectedLang(item) {
       this.selectedLang = item
     },
+    profileOptions(item) {
+      if (this.showEdit) {
+        this.editProfile(item)
+      }
+
+      if (!this.showEdit) {
+        this.switchProfile(item)
+      }
+    },
     async editProfile(item) {
       this.selectedAvatar = item.avatar
       this.selectedAge = item.age
       this.childs_name = item.name
+      this.selectedLang = item.primary_language
       this.context = 'Edit'
       this.step = 1
       this.profileId = item._id
@@ -330,6 +357,7 @@ export default {
       this.selectedAge = null
       this.selectedAvatar = ''
       this.profileId = null
+      this.childs_name = ''
     },
     async delete() {
       window.alertify

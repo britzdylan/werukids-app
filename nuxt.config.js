@@ -7,9 +7,7 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  // server: {
-  //   default: localhost
-  // },
+
   env: {
     baseUrl: process.env.BASE_URL
       ? process.env.BASE_URL.trim()
@@ -56,7 +54,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vee-validate' },
+    { src: '~/plugins/vee-validate.js' },
     {
       src: '~/plugins/alertify.js',
       mode: 'client',
@@ -169,7 +167,6 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vee-validate/dist/rules'],
-    publicPath: '/nuxt/',
   },
   generate: {
     dir: 'public',

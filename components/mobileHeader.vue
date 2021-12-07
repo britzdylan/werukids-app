@@ -21,18 +21,14 @@ export default {
   name: 'mobileHeader',
   computed: {},
   methods: {
-    async logout() {
-      await this.$auth.logout()
+    logout() {
+      window.alertify
+        .confirm('Are you sure you want to log out', async () => {
+          await this.$auth.logout()
+        })
+        .set('labels', { ok: 'LOGOUT', cancel: 'Cancel' })
     },
   },
 }
 </script>
-<style>
-.mobileHeader {
-  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0 z-20;
-}
-
-.avatar {
-  filter: drop-shadow(0px 0px 2px #00ba77);
-}
-</style>
+<style></style>

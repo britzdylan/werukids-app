@@ -134,10 +134,12 @@ body {
 
 .btn {
   @apply text-base  rounded-full text-title h-16 font-medium transition duration-300 ease-in-out w-full lg:w-96 my-2;
+  min-height: 4rem;
 }
 
 .btn.primary {
   @apply bg-primary text-white;
+  box-shadow: 0px 5px 0px #186594;
 }
 
 .btn.primary.action {
@@ -228,7 +230,7 @@ textarea {
   @apply flex flex-col;
 }
 .subpage > header {
-  @apply h-20 bg-offwhite flex flex-row items-center justify-between px-4 py-6 sticky top-0 z-20;
+  @apply h-20 bg-secondary text-body flex flex-row items-center justify-between px-4 py-6 sticky top-0 z-20;
 }
 
 .subpage > header > p {
@@ -335,7 +337,7 @@ textarea {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-  @apply border-secondaryDark h-4 w-2;
+  @apply border-primary h-4 w-2;
 }
 
 .hideScrollbar::-webkit-scrollbar {
@@ -346,4 +348,122 @@ textarea {
 .hideScrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.mobileHeader {
+  @apply flex flex-row justify-between items-center w-full px-4 py-6 bg-offwhite lg:hidden sticky top-0 z-20;
+}
+
+.avatar {
+  filter: drop-shadow(0px 0px 2px #00ba77);
+}
+
+.desktopHeader {
+  @apply hidden lg:sticky top-0 lg:flex flex-row items-center left-0 right-0 w-full py-4 px-8 bg-offwhite justify-center z-20;
+}
+
+.navItem {
+  @apply mx-6 text-lg font-bold;
+}
+
+.activeLink {
+  @apply text-primary;
+}
+
+.moreMenu {
+  @apply absolute  left-0 w-64 bg-secondary  rounded-md p-4;
+  top: 2rem;
+}
+
+.menuItem {
+  @apply text-lg font-bold font-display my-2 cursor-pointer;
+}
+
+#mobileNav {
+  @apply flex flex-row justify-between items-center w-full lg:hidden bg-background px-4 py-0 h-16 fixed bottom-0 z-10;
+  box-shadow: 0px -4px 24px rgba(190, 190, 190, 0.11);
+  border-radius: 16px 16px 0px 0px;
+}
+
+#mobileNav a {
+  @apply h-full w-1/3;
+}
+.mobileNavItem {
+  @apply w-full h-full flex flex-row items-center justify-center;
+}
+
+#menu {
+  @apply w-1/3;
+}
+
+/* READ */
+
+#categories {
+  @apply w-full overflow-y-scroll;
+}
+.category {
+  @apply w-16 h-16 bg-primaryLight mx-6 cursor-pointer;
+
+  border-radius: 76% 51% 53% 58% / 57% 57% 53% 61%;
+}
+
+.selected {
+  @apply bg-secondary;
+}
+.booksContainer {
+  @apply my-4 grid lg:grid-cols-2 grid-cols-1 gap-4;
+}
+.learnTitle {
+  @apply font-display font-bold;
+}
+
+.learnHeader {
+  @apply flex flex-row items-center justify-between w-full py-4 border-b;
+}
+
+.singleBook {
+  @apply relative   p-2 mb-4 flex flex-row items-start justify-start;
+  /* max-width: 400px; */
+}
+
+.singleBook > img {
+  @apply w-24 lg:w-32 rounded-2xl shadow-xl;
+}
+
+.singleBook > .bookDetails {
+  @apply w-full pl-6;
+}
+
+.singleBook > .bookDetails > p {
+  @apply text-lg lg:text-lg font-bold font-display mb-4;
+}
+
+.isread {
+  @apply absolute top-0 bottom-0 left-0 right-0 bg-white bg-opacity-75 flex flex-row items-center justify-center;
+}
+
+.bookFilterContainer {
+  @apply fixed top-0 left-0 right-0 bottom-0 z-50 bg-white bg-opacity-80 blur-xl lg:flex flex-col items-center justify-center;
+}
+.bookFilter {
+  @apply fixed lg:static z-50 bg-white p-4  rounded-md flex flex-col;
+  box-shadow: 0px 0px 8px #ffc000;
+  top: 2rem;
+  bottom: 2rem;
+  right: 2rem;
+  left: 2rem;
+}
+
+.pill {
+  @apply p-1 rounded-full w-24 text-center block  bg-inputBg mr-2 lg:my-2 cursor-pointer;
+  min-width: 6rem;
+}
+
+.pillselected {
+  @apply p-1 rounded-full w-24 text-center block  bg-secondary mr-2 lg:my-2 cursor-pointer;
+  min-width: 6rem;
+}
+
+.languagesSelectedContainer {
+  @apply lg:grid lg:grid-cols-2 lg:items-center lg:justify-items-center lg:flex-wrap lg:mb-8 overflow-x-scroll;
 }

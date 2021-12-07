@@ -4,7 +4,7 @@
     <div class="mb-12">
       <img class="h-12 mx-auto" src="/logo/main.svg" alt="" />
     </div>
-    <button class="google">
+    <!-- <button class="google">
       Sign In with google
       <svg
         width="36"
@@ -31,7 +31,7 @@
           fill="#1976D2"
         />
       </svg>
-    </button>
+    </button> -->
     <div class="max-w-2xl w-full mx-auto mb-6">
       <hr class="my-8" />
       <ValidationObserver v-slot="{ invalid }" slim ref="login">
@@ -57,7 +57,7 @@
         </ValidationProvider>
         <ValidationProvider
           v-if="!showPassword"
-          rules="required"
+          rules="required|passLength"
           name="password"
           v-slot="{ errors }"
         >
@@ -96,7 +96,7 @@
         </ValidationProvider>
         <ValidationProvider
           v-if="showPassword"
-          rules="required"
+          rules="required|passLength"
           name="password"
           v-slot="{ errors }"
         >
@@ -208,6 +208,10 @@ export default {
     },
     nextStep() {},
     async signin() {
+      let validate = await this.$refs.login.validate()
+      if (!validate) {
+        return
+      }
       this.loading = true
       const login = {
         email: this.email,
