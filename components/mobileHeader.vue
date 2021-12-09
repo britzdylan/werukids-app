@@ -1,6 +1,6 @@
 <template>
   <header v-if="this.currentProfile != null" class="mobileHeader">
-    <div @click="() => this.$router.push('/profile')" class="">
+    <div @click="() => this.$router.push('/profile/switch')" class="">
       <img
         class="w-12 h-12"
         :src="`/avatars/${this.currentProfile.avatar}.svg`"

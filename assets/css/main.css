@@ -1,87 +1,6 @@
-@font-face {
-  font-family: 'Balsamiq-Sans';
-  font-style: normal;
-  font-weight: 700;
-  src: url('~assets/fonts/BalsamiqSans-Bold.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Bold.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Balsamiq-Sans';
-  font-style: Italic;
-  font-weight: 700;
-  src: url('~assets/fonts/BalsamiqSans-BoldItalic.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-BoldItalic.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Balsamiq-Sans';
-  font-style: normal;
-  font-weight: 500;
-  src: url('~assets/fonts/BalsamiqSans-Regular.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Regular.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Balsamiq-Sans';
-  font-style: Italic;
-  font-weight: 500;
-  src: url('~assets/fonts/BalsamiqSans-Italic.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Italic.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Balsamiq-Sans';
-  font-style: Italic;
-  font-weight: 500;
-  src: url('~assets/fonts/BalsamiqSans-Italic.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/BalsamiqSans-Italic.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 500;
-  src: url('~assets/fonts/Poppins-Regular.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/Poppins-Regular.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  src: url('~assets/fonts/Poppins-SemiBold.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/Poppins-SemiBold.ttf')
-      format('truetype');
-}
-
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  src: url('~assets/fonts/Poppins-Bold.ttf'); /* IE9 Compat Modes */
-  src: local(''),
-    /* Modern Browsers */ url('~assets/fonts/Poppins-Bold.ttf')
-      format('truetype');
-}
-
 /* ======================== base ======================== */
-body {
-  height: 100%;
-  @apply font-body;
+* {
+  font-family: 'Open Sans', sans-serif;
 }
 
 #__nuxt,
@@ -252,11 +171,11 @@ textarea {
 /* =======================================Profile====================================== */
 
 .ageBlock {
-  @apply w-20 h-16 rounded-lg text-3xl font-display bg-inputBg flex flex-row items-center justify-center text-primary;
+  @apply w-20 h-16 rounded-lg text-3xl  bg-inputBg flex flex-row items-center justify-center text-primary;
 }
 
 .ageSelected {
-  @apply text-primaryLight w-20 h-16 rounded-lg text-3xl font-display bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center;
+  @apply text-primaryLight w-20 h-16 rounded-lg text-3xl  bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center;
 }
 
 .ageContainer {
@@ -276,11 +195,11 @@ textarea {
 }
 
 .lang {
-  @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4 font-display bg-inputBg flex flex-row items-center justify-center text-primary;
+  @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4  bg-inputBg flex flex-row items-center justify-center text-primary;
 }
 
 .langSelected {
-  @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4 font-display bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center text-primary;
+  @apply w-2/3 lg:w-96 rounded-lg text-2xl capitalize mx-auto my-4 py-3 px-4  bg-secondaryLight ring-4 ring-secondaryDark  flex flex-row items-center justify-center text-primary;
 }
 
 /* Checkbox */
@@ -376,7 +295,7 @@ textarea {
 }
 
 .menuItem {
-  @apply text-lg font-bold font-display my-2 cursor-pointer;
+  @apply text-lg font-bold  my-2 cursor-pointer;
 }
 
 #mobileNav {
@@ -414,7 +333,7 @@ textarea {
   @apply my-4 grid lg:grid-cols-2 grid-cols-1 gap-4;
 }
 .learnTitle {
-  @apply font-display font-bold;
+  @apply font-bold;
 }
 
 .learnHeader {
@@ -422,12 +341,12 @@ textarea {
 }
 
 .singleBook {
-  @apply relative   p-2 mb-4 flex flex-row items-start justify-start;
+  @apply relative bg-white shadow-md rounded-2xl  p-2 mb-2 flex flex-row items-center justify-start;
   /* max-width: 400px; */
 }
 
 .singleBook > img {
-  @apply w-24 lg:w-32 rounded-2xl shadow-xl;
+  @apply w-24 lg:w-32 rounded-2xl;
 }
 
 .singleBook > .bookDetails {
@@ -435,7 +354,7 @@ textarea {
 }
 
 .singleBook > .bookDetails > p {
-  @apply text-lg lg:text-lg font-bold font-display mb-4;
+  @apply text-lg lg:text-lg font-bold  mb-4;
 }
 
 .isread {
@@ -466,4 +385,8 @@ textarea {
 
 .languagesSelectedContainer {
   @apply lg:grid lg:grid-cols-2 lg:items-center lg:justify-items-center lg:flex-wrap lg:mb-8 overflow-x-scroll;
+}
+
+.hideLastChild:last-child {
+  display: none;
 }

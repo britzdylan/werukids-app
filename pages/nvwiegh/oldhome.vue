@@ -3,7 +3,8 @@
     v-if="this.currentProfile != null"
     class="max-w-7xl mx-auto lg:py-24 p-4 pb-24"
   >
-    <div class="flex flex-col items-center justify-center mb-4">
+    <div class="flex flex-row items-center mb-4">
+      <h1 class="mr-4">Hi {{ this.currentProfile.name }}</h1>
       <div class="mr-8 cursor-pointer">
         <img
           class="w-14 h-14"
@@ -11,14 +12,11 @@
           alt=""
         />
       </div>
-      <h1 class="mr-4 text-4xl text-center">
-        Hi {{ this.currentProfile.name }}
-      </h1>
     </div>
     <hr class="mb-4" />
-    <section class="">
-      <!-- <div>
-        <h3 class=" mb-8">Today's Plan</h3>
+    <section class="grid lg:grid-cols-2 gap-4 items-stretch">
+      <div>
+        <h3 class="mb-8">Today's Plan</h3>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
           <div
             style="background-image: url('/images/bookBG.png')"
@@ -36,27 +34,27 @@
             >
               Start
             </button>
-            <img src="/icons/read.svg" class="" alt="" />
+            <!-- <img src="/icons/read.svg" class="" alt="" /> -->
           </div>
           <div class="learnCard bg-secondary opacity-40">
             <p>Play</p>
             <button class="rounded-full bg-white text-body py-2 px-6 mt-8">
               Coming Soon
             </button>
-            <img src="/icons/play.svg" class="" alt="" />
+            <!-- <img src="/icons/play.svg" class="" alt="" /> -->
           </div>
           <div class="learnCard bg-success opacity-40">
             <p>Watch</p>
             <button class="rounded-full bg-white text-body py-2 px-6 mt-8">
               Coming Soon
             </button>
-            <img src="/icons/watch.svg" class="" alt="" />
+            <!-- <img src="/icons/watch.svg" class="" alt="" /> -->
           </div>
         </div>
-      </div> -->
+      </div>
       <div>
-        <h3 class="mb-8 text-center lg:text-left">Achievements</h3>
-        <div class="grid lg:grid-cols-2 gap-4 items-stretch">
+        <h3 class="mb-8">Achievements</h3>
+        <div>
           <div
             id="starsEarned"
             class="

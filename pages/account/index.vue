@@ -6,7 +6,7 @@
     <security />
     <div class="accountDetails">
       <div>
-        <h1 class="font-display font-bold leading-none text-3xl">
+        <h1 class="font-bold leading-none text-3xl">
           {{ this.account.first_name }} {{ this.account.last_name }}
         </h1>
         <p class="font-medium">{{ this.account.email }}</p>

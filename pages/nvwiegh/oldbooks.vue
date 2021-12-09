@@ -16,7 +16,7 @@
     </div>
     <div v-show="this.showFilter" class="bookFilterContainer">
       <div class="bookFilter">
-        <h3 class="font-display font-bold mb-4">Change Language</h3>
+        <h3 class="font-bold mb-4">Change Language</h3>
 
         <div class="languagesSelectedContainer hideScrollbar">
           <template v-for="lang in this.languages">

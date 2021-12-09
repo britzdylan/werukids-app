@@ -57,7 +57,7 @@
           />
         </svg>
       </header>
-      <h3 class="text-center font-display font-bold">Rate Us</h3>
+      <h3 class="text-center font-bold">Rate Us</h3>
       <hr class="w-1/2 mx-auto bg-line mb-4" />
       <p>How was your experience</p>
       <div class="flex flex-row items-center justify-center my-4">

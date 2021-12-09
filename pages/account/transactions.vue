@@ -20,7 +20,7 @@
         </div>
       </template>
       <template v-if="transactions.length < 1">
-        <h5 class="text-center font-bold font-display opacity-50">
+        <h5 class="text-center font-bold opacity-50">
           All your transaction history will show up here
         </h5>
       </template>

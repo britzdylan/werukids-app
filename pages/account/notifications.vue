@@ -11,9 +11,7 @@
       <p>Notification Preferences</p>
     </header>
     <section class="w-min mx-auto">
-      <h1 class="w-96 mx-auto font-display font-bold text-4xl">
-        Email me when:
-      </h1>
+      <h1 class="w-96 mx-auto font-bold text-4xl">Email me when:</h1>
       <label class="checkboxContainer">
         <input
           v-model="notifications.marketing"

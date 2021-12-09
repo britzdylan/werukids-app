@@ -17,7 +17,7 @@
   >
     <div class="bg-white w-auto p-12 h-auto rounded-lg m-auto">
       <div class="flex flex-row items-center justify-between">
-        <h4 class="font-display font-bold">Parents Only</h4>
+        <h4 class="font-bold">Parents Only</h4>
         <img @click="() => this.$router.go(-1)" src="/icons/Close.svg" alt="" />
       </div>
 

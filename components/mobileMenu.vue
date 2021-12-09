@@ -29,6 +29,7 @@
       <img class="h-8 mx-auto" src="/logo/dark.svg" alt="" />
     </div>
     <div class="flex-grow flex flex-col justify-center">
+      <h3 class="" @click="() => this.$router.push(`/account`)">Parents</h3>
       <h3
         class=""
         @click="() => this.$router.push(`${this.$route.path}?popup=rate`)"
@@ -91,6 +92,6 @@ footer {
 }
 
 h3 {
-  @apply font-display font-medium text-center my-2;
+  @apply font-medium text-center my-2;
 }
 </style>

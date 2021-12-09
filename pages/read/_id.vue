@@ -24,7 +24,7 @@
         />
       </div>
 
-      <h3 class="font-display text-center mb-8">{{ this.book.Title }}</h3>
+      <h3 class=" text-center mb-8">{{ this.book.Title }}</h3>
       <button @click="initReading" class="btn primary mb-12 block mx-auto">
         Read Book
       </button>
@@ -83,9 +83,7 @@
       "
       v-show="this.orientation == 'portrait-primary' && this.isReading"
     >
-      <h4 class="font=bold text-center font-display">
-        Please Rotate your screen
-      </h4>
+      <h4 class="font=bold text-center">Please Rotate your screen</h4>
       <img src="/icons/rotate.svg" class="h-12 w-12 mt-12 spin" alt="" />
     </div>
   </main>

@@ -9,14 +9,28 @@
         class="navItem"
         to="/"
       >
-        Learn
+        Books
+      </router-link>
+      <router-link
+        :class="this.currentRoute == 'games' ? 'activeLink' : ''"
+        class="navItem"
+        to="/games"
+      >
+        Games
+      </router-link>
+      <router-link
+        :class="this.currentRoute == 'videos' ? 'activeLink' : ''"
+        class="navItem"
+        to="/videos"
+      >
+        Videos
       </router-link>
       <router-link
         :class="this.currentRoute == 'account' ? 'activeLink' : ''"
         class="navItem"
-        to="/account"
+        to="/profile"
       >
-        Parents
+        Profile
       </router-link>
       <span v-click-outside="hideMenu" class="relative">
         <p
@@ -28,6 +42,13 @@
           More
         </p>
         <div v-show="this.showMenu" class="moreMenu">
+          <router-link
+            :class="this.currentRoute == 'account' ? 'activeLink' : ''"
+            class="menuItem"
+            to="/account"
+          >
+            Parents
+          </router-link>
           <p
             class="menuItem"
             @click="() => this.$router.push(`${this.$route.path}?popup=rate`)"
@@ -44,7 +65,7 @@
     </nav>
     <div class="ml-auto flex flex-row items-center">
       <div
-        @click="() => this.$router.push('/profile')"
+        @click="() => this.$router.push('/profile/switch')"
         class="mr-8 cursor-pointer"
       >
         <img

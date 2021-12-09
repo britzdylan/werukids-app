@@ -47,10 +47,6 @@ module.exports = {
         warningLight: '#9F7C11',
         warningDark: '#F3EACF',
       },
-      fontFamily: {
-        display: ['Balsamiq-Sans', 'serif'],
-        body: ['Poppins', 'serif'],
-      },
     },
   },
   variants: {

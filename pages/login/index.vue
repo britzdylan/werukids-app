@@ -228,7 +228,7 @@ export default {
         this.$router.replace('/')
       } catch (error) {
         console.log(error)
-        window.alertify.error(error.response.data)
+        window.alertify.error('Email or password is incorrect')
         this.loading = false
       }
     },
