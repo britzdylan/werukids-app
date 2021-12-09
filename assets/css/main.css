@@ -3,6 +3,14 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 #__nuxt,
 #__layout {
   height: 100%;
@@ -57,8 +65,8 @@ body {
 }
 
 .btn.primary {
-  @apply bg-primary text-white;
-  box-shadow: 0px 5px 0px #186594;
+  @apply bg-secondary text-body;
+  box-shadow: 0px 5px 0px #ecb200;
 }
 
 .btn.primary.action {
@@ -66,7 +74,7 @@ body {
 }
 
 .btn.primary:hover {
-  @apply bg-primaryDark text-offwhite;
+  @apply bg-secondaryDark text-offwhite;
 }
 
 .btn:disabled {

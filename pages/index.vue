@@ -55,7 +55,7 @@
             >
               <img :src="`${strapiUrl}${book.cover.url}`" alt="" />
               <div class="bookDetails">
-                <p>{{ book.Title }}</p>
+                <p style="color: #f55c4a">{{ book.Title }}</p>
                 <template v-for="(lang, index) in book.languages">
                   <small class="uppercase mr-0" :key="lang.id + '_lang'"
                     >{{ lang.Title
@@ -64,11 +64,22 @@
                 </template>
               </div>
               <div class="actions">
-                <img
-                  class="rotate-180 transform h-12"
-                  src="/icons/Back.svg"
-                  alt=""
-                />
+                <svg
+                  class="transform rotate-180"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.9632 5L8.99999 11.9632L15.9632 18.9263"
+                    stroke="#F55C4A"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </div>
 
               <!-- <div v-if="book.isRead" class="isread">

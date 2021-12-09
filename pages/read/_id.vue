@@ -168,7 +168,7 @@ export default {
     },
 
     goBack() {
-      this.$router.replace('/read')
+      this.$router.replace('/')
     },
   },
   computed: {

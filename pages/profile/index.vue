@@ -56,7 +56,7 @@
       </div> -->
       <div>
         <h3 class="mb-8 text-center lg:text-left">Achievements</h3>
-        <div class="grid lg:grid-cols-2 gap-4 items-stretch">
+        <div class="grid lg:grid-cols-2 gap-4 items-start">
           <div
             id="starsEarned"
             class="

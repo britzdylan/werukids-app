@@ -37,8 +37,8 @@
         Rate Us
       </h3>
       <!-- <h3 class="">Help</h3> -->
-      <a href="https://www.werukids.com/about" target="_blank"
-        ><h3 class="">About werukids</h3></a
+      <a class="m-0" href="https://www.werukids.com/about" target="_blank"
+        ><h3 class="">About</h3></a
       >
       <h3 @click="this.share" class="">Share</h3>
     </div>
@@ -84,7 +84,11 @@ header {
 }
 
 a {
-  @apply block my-4;
+  @apply block my-0;
+}
+
+footer > a {
+  @apply my-4;
 }
 
 footer {
