@@ -1,9 +1,9 @@
 <template>
   <header v-if="this.currentProfile != null" class="desktopHeader">
-    <div class="mr-auto">
+    <div class="w-32">
       <img class="h-6" src="/logo/main.svg" alt="" />
     </div>
-    <nav class="">
+    <nav class="flex flex-row items-center justify-center mx-auto">
       <router-link
         :class="this.currentRoute == 'index' ? 'activeLink' : ''"
         class="navItem"
@@ -63,7 +63,7 @@
         </div>
       </span>
     </nav>
-    <div class="ml-auto flex flex-row items-center">
+    <div class="flex flex-row items-center w-32">
       <div
         @click="() => this.$router.push('/profile/switch')"
         class="mr-8 cursor-pointer"

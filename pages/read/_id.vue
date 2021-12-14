@@ -1,5 +1,11 @@
 <template>
   <main class="subpage h-full bg-white">
+    <button
+      style="width: 120px"
+      class="btn primary absolute right-5 bottom-2 w-max"
+    >
+      Back
+    </button>
     <loader v-if="this.loading" />
     <header v-if="!this.loading">
       <img
