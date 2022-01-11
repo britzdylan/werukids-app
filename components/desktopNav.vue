@@ -26,7 +26,7 @@
         Videos
       </router-link>
       <router-link
-        :class="this.currentRoute == 'account' ? 'activeLink' : ''"
+        :class="this.currentRoute == 'profile' ? 'activeLink' : ''"
         class="navItem"
         to="/profile"
       >

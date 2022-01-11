@@ -148,13 +148,13 @@
       >
         Save
       </button>
-      <button
+      <!-- <button
         @click="() => (this.showEdit = true)"
         v-if="this.step == 0 && !this.showEdit"
         class="btn mt-auto block"
       >
         Edit Profile
-      </button>
+      </button> -->
       <button
         @click="() => (this.showEdit = false)"
         v-if="this.step == 0 && this.showEdit"
@@ -265,7 +265,7 @@ export default {
     addProfile() {
       this.context = 'Add'
       this.$nuxt.$emit('security')
-    //   this.step = 1
+      //   this.step = 1
     },
     goBack() {
       if (this.step > 0) {

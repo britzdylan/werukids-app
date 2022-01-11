@@ -1,6 +1,7 @@
 <template>
   <main class="subpage h-full bg-white">
     <button
+      @click="this.goBack"
       style="width: 120px"
       class="btn primary absolute right-5 bottom-2 w-max"
     >
