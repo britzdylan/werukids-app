@@ -1,5 +1,19 @@
 <template>
   <main class="subpage h-full bg-white">
+    <transition name="bounce">
+      <levelup
+        @hideLevelUpFromChild="this.hideLevelUp"
+        :level="this.newLevel"
+        v-if="this.showLevel"
+      />
+    </transition>
+    <transition name="bounce">
+      <newBadge
+        @hidebadgeEmitFromChild="this.hidebadge"
+        :items="this.newBadge"
+        v-if="this.showBadge"
+      />
+    </transition>
     <button
       @click="this.goBack"
       style="width: 120px"
@@ -109,6 +123,10 @@ export default {
       book: null,
       orientation: null,
       file: null,
+      showLevel: false,
+      newLevel: null,
+      showBadge: false,
+      newBadge: [],
     }
   },
   mounted() {
@@ -121,16 +139,32 @@ export default {
     this.calcTrailTime()
   },
   methods: {
-    initReading() {
-      this.isReading = true
-      // TODO start countdown function for profile tracking
-      // 7sec x everypage of the book
-      // send xhr
-      const pages = 2
-      const time = pages * 7 * 1000
-      setTimeout(function () {
-        // alert('Hello')
-      }, time)
+    initReading(pages) {
+      console.log(pages)
+      let total_time = 4 * pages * 1000
+      console.log(total_time)
+      setTimeout(
+        function () {
+          this.trackBook()
+        }.bind(this),
+        total_time
+      )
+    },
+    async trackBook() {
+      console.clear()
+      console.log('Track Book Func')
+      try {
+        let res = await this.$store.dispatch('profile/trackBook', {
+          id: this.$store.state.profile.currentProfile._id,
+        })
+        if (res instanceof Error) throw new Error(res)
+        if (res.did_level) {
+          this.showLevel = true
+          this.newLevel = this.currentProfile.level + 1
+        }
+      } catch (error) {
+        console.log(error)
+      }
     },
     calcTrailTime() {
       if (this.$auth.user.billing.subscription_status == 'trail') {
@@ -165,6 +199,7 @@ export default {
         if (res instanceof Error) throw new Error(res)
         this.book = res
         this.loading = false
+        this.initReading(res.pages)
       } catch (error) {
         console.log(error)
         window.alertify.error(
@@ -177,11 +212,20 @@ export default {
     goBack() {
       this.$router.replace('/')
     },
+    hideLevelUp() {
+      this.showLevel = false
+    },
+    hidebadge() {
+      this.showBadge = false
+    },
   },
   computed: {
     isLastPage() {
       const iFrame = document.getElementById('book')
       return iFrame.contentWindow
+    },
+    currentProfile() {
+      return this.$store.getters['profile/getCurrentProfile']
     },
   },
 }

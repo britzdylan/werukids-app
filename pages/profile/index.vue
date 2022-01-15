@@ -81,11 +81,13 @@
               <div class="w-full text-center">
                 <!-- <small class="opacity-75 font-bold">You are level</small> -->
                 <div class="text-center">
-                  <h1 class="font-bold leading-8">Level 21</h1>
+                  <h1 class="font-bold leading-8">
+                    Level {{ this.currentProfile.level }}
+                  </h1>
                 </div>
-                <small class="opacity-75 font-bold"
+                <!-- <small class="opacity-75 font-bold"
                   >You need 28 more stars to level up</small
-                >
+                > -->
 
                 <div
                   id="progress"
@@ -108,7 +110,7 @@
                       justify-center
                       text-white
                     "
-                    style="width: 20%"
+                    :style="`width: ${this.currentLevelPercentage}%`"
                   ></div>
                   <div
                     class="
@@ -157,21 +159,28 @@
                     py-4
                   "
                 >
-                  <template v-for="item in badges">
-                    <img
-                      v-if="item < 4"
-                      :key="item + 'badge'"
-                      :src="`/badges/${item}.svg`"
-                      class="mx-auto h-32 w-32"
-                      alt=""
-                    />
-                    <img
-                      v-if="item >= 4"
-                      :key="item + 'badge'"
-                      src="/badges/placeholder.svg"
-                      class="mx-auto h-32 w-32"
-                      alt=""
-                    />
+                  <template v-for="item in currentProfile.badges_earned">
+                    <div v-if="item.unlocked" :key="item.title + 'badge'">
+                      <img
+                        :key="item.title + 'badge'"
+                        :src="`/badges/${item.file}.svg`"
+                        class="mx-auto h-32 w-32"
+                        alt=""
+                      />
+                      <small :key="item.title + 'badge_name'">{{
+                        item.title
+                      }}</small>
+                    </div>
+                    <div v-else :key="item.title + 'badge_notEarned'">
+                      <img
+                        src="/badges/placeholder.svg"
+                        class="mx-auto h-32 w-32"
+                        alt=""
+                      />
+                      <small :key="item.title + 'badge_name'">{{
+                        item.title
+                      }}</small>
+                    </div>
                   </template>
                 </div>
               </div>
@@ -194,12 +203,6 @@
           src="/icons/Delete.svg"
           alt=""
         />
-        <!-- <img
-          @click="this.goBack"
-          class="h-6 w-6 cursor-pointer"
-          src="/icons/Close.svg"
-          alt=""
-        /> -->
       </div>
       <section v-show="this.step == 1">
         <p class="text-center">{{ this.context }} your childs name and age</p>
@@ -318,7 +321,11 @@
           </svg>
         </button>
       </footer>
-      <button @click="() => (this.step = 0)" class="btn mt-auto block mx-auto">
+      <button
+        v-if="this.step > 0"
+        @click="() => (this.step = 0)"
+        class="btn mt-auto block mx-auto"
+      >
         Cancel
       </button>
     </div>
@@ -365,6 +372,7 @@ export default {
     }
     this.fetchContent()
     this.calcTrailTime()
+    this.getUser()
   },
   methods: {
     calcTrailTime() {
@@ -596,6 +604,13 @@ export default {
     },
   },
   computed: {
+    next_level_requirements() {
+      return 3 + Math.pow(this.currentProfile.level, 2.6)
+    },
+    currentLevelPercentage() {
+      const nextLevel = Math.round(3 + Math.pow(this.currentProfile.level, 2.6))
+      return Math.round((this.currentProfile.total_stars / nextLevel) * 100)
+    },
     currentProfile() {
       return this.$store.getters['profile/getCurrentProfile']
     },

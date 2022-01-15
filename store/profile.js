@@ -48,4 +48,11 @@ export const actions = {
     console.log(payload)
     context.commit('setCurrentProfile', payload)
   },
+  async trackBook(context, payload) {
+    return await this.$axios
+      .post('/profile/track/books', payload)
+      .then((res) => {
+        return res.data
+      })
+  },
 }
