@@ -1,5 +1,7 @@
 <template>
-  <Nuxt />
+  <div class="h-full">
+    <Nuxt />
+  </div>
 </template>
 <script>
 export default {

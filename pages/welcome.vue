@@ -37,6 +37,9 @@
         Sign up with email
       </button>
     </router-link>
+    <router-link to="/public">
+      <button class="btn outline mt-auto block mx-auto">Try demo</button>
+    </router-link>
     <!-- <img
       class="w-full lg:w-96 ml-auto lg:mt-0"
       src="/images/point.png"
