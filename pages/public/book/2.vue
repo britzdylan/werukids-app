@@ -30,6 +30,7 @@
 </template>
 <script>
 export default {
+  layout: 'public',
   methods: {
     goBack() {
       this.$router.replace('/public')
