@@ -87,7 +87,7 @@
       class="fp-iframe h-full w-full xl:w-2/3 mx-auto"
       :src="this.book.Link"
     ></iframe>
-    <div
+    <!-- <div
       class="
         bg-white
         fixed
@@ -106,7 +106,7 @@
     >
       <h4 class="font=bold text-center">Please Rotate your screen</h4>
       <img src="/icons/rotate.svg" class="h-12 w-12 mt-12 spin" alt="" />
-    </div>
+    </div> -->
   </main>
 </template>
 <script>
@@ -133,8 +133,8 @@ export default {
     if (this.$auth.user.billing.subscription_status == 'suspended') {
       this.$router.replace('/account/trail')
     }
-    this.orientation = window.screen.orientation.type
-    window.addEventListener('orientationchange', this.handleOrientationChange)
+    // this.orientation = window.screen.orientation.type
+    // window.addEventListener('orientationchange', this.handleOrientationChange)
     this.fetchBook()
     this.calcTrailTime()
   },
