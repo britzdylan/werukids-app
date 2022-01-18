@@ -314,7 +314,7 @@
           day free trail
         </p>
         <button
-          @click="() => this.$router.replace('/login')"
+          @click="this.login"
           v-if="this.step == 9"
           class="btn primary mt-auto block mx-auto"
         >
@@ -638,6 +638,31 @@ export default {
       } catch (error) {
         console.log(error.response)
         window.alertify.error(error.response.data)
+        this.loading = false
+      }
+    },
+    async login() {
+      if (this.email == '' || this.password == '') {
+        this.$router.replace('/login')
+        return
+      }
+      this.loading = true
+      const login = {
+        email: this.email,
+        password: this.password,
+      }
+      console.log(login)
+      try {
+        let res = await this.$auth
+          .loginWith('local', { data: login })
+          .then((res) => console.log(res, '/////////from AUTH'))
+        if (res instanceof Error) throw new Error(res)
+        window.alertify.success('Logged in successfully')
+        this.loading = false
+        this.$router.replace('/')
+      } catch (error) {
+        console.log(error)
+        window.alertify.error('Email or password is incorrect')
         this.loading = false
       }
     },
