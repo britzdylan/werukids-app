@@ -1,6 +1,6 @@
 <template>
   <div class="bg-pic">
-    <p class="text-center">Sign Up To</p>
+    <p class="text-center font-bold">Sign Up To</p>
     <div class="mb-12">
       <img class="h-12 mx-auto" src="/logo/main.svg" alt="" />
     </div>
@@ -38,14 +38,16 @@
       </button>
     </router-link>
     <router-link to="/public">
-      <button class="btn outline mt-auto block mx-auto">Try demo</button>
+      <button class="btn outline mt-auto block mx-auto bg-white">
+        Try demo
+      </button>
     </router-link>
     <!-- <img
       class="w-full lg:w-96 ml-auto lg:mt-0"
       src="/images/point.png"
       alt=""
     /> -->
-    <router-link to="/login" class="mb-8 mt-auto text-center">
+    <router-link to="/login" class="mb-8 mt-auto text-center font-bold">
       Already have an account? Log in instead.
     </router-link>
   </div>

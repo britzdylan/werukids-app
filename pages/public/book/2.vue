@@ -1,13 +1,5 @@
 <template>
   <main class="subpage h-full bg-white">
-    <button
-      @click="this.goBack"
-      style="width: 120px"
-      class="btn primary absolute right-5 bottom-2 w-max"
-    >
-      Back
-    </button>
-
     <header>
       <img
         @click="this.goBack"
@@ -26,6 +18,11 @@
       class="fp-iframe h-full w-full xl:w-2/3 mx-auto"
       src="https://myfuturework.aflip.in/numbers"
     ></iframe>
+    <div class="w-full px-4">
+      <button @click="this.goBack" class="btn primary w-full mx-auto">
+        Back
+      </button>
+    </div>
   </main>
 </template>
 <script>

@@ -80,12 +80,13 @@
     </div> -->
 
     <iframe
-      v-if="!this.loading"
+      allow
       id="book"
       allowfullscreen="allowfullscreen"
       scrolling="no"
       class="fp-iframe h-full w-full xl:w-2/3 mx-auto"
       :src="this.book.Link"
+      referer="noreferrer"
     ></iframe>
     <!-- <div
       class="
@@ -120,7 +121,7 @@ export default {
     return {
       isReading: false,
       loading: true,
-      book: null,
+      book: { Link: '' },
       orientation: null,
       file: null,
       showLevel: false,
@@ -130,6 +131,7 @@ export default {
     }
   },
   mounted() {
+    console.log('Page mounted')
     if (this.$auth.user.billing.subscription_status == 'suspended') {
       this.$router.replace('/account/trail')
     }
