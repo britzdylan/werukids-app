@@ -610,6 +610,7 @@ export default {
             if (res instanceof Error) throw new Error(res)
             this.step = 9
             window.alertify.success('Signed up successfully')
+            panelbear('track', 'NEW_USER_SIGN_UP')
             this.loading = false
           } catch (error) {
             console.log(error.response)

@@ -128,6 +128,7 @@
         left-0
         right-0
         py-4
+        lg:hidden
       "
     >
       <!-- <router-link to="/">
@@ -249,6 +250,9 @@
 export default {
   name: 'Public',
   layout: 'public',
+  mounted() {
+    panelbear('track', 'VIEW_DEMO_PAGE')
+  },
 }
 </script>
 <style>

@@ -109,6 +109,8 @@ export default {
           'Account notifications has been successfully updated'
         )
         await this.$auth.fetchUser()
+        panelbear('track', 'USER_UPDATED_NOTIFICATIONS')
+
         this.loading = false
       } catch (error) {
         console.log(error)

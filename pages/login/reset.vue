@@ -307,6 +307,8 @@ export default {
         if (res instanceof Error) throw new Error(res)
         window.alertify.success('Password successfully updated')
         this.$router.replace('/login')
+        panelbear('track', 'USER_RESET_PASSWORD')
+
         this.loading = false
       } catch (error) {
         console.log(error)

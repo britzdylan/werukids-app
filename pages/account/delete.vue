@@ -93,6 +93,8 @@ export default {
               if (res instanceof Error) throw new Error(res)
               window.alertify.success('Account has been deleted successfully')
               this.$auth.logout()
+              panelbear('track', 'USER_DELETED_ACCOUNT')
+
               this.loading = false
             } catch (error) {
               console.log(error)

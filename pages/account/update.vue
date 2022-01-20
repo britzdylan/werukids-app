@@ -137,6 +137,8 @@ export default {
         if (res instanceof Error) throw new Error(res)
 
         window.alertify.success('Profile updated successfully')
+        panelbear('track', 'USER_UPDATED_ACCOUNT')
+
         this.loading = false
       } catch (error) {
         console.log(error)

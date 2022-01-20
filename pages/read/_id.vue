@@ -201,7 +201,9 @@ export default {
         if (res instanceof Error) throw new Error(res)
         this.book = res
         this.loading = false
+        const title = res.Title.replaceAll(' ', '_')
         this.initReading(res.pages)
+        panelbear('track', `BOOK_${title}`)
       } catch (error) {
         console.log(error)
         window.alertify.error(

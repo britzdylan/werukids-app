@@ -225,6 +225,8 @@ export default {
         if (res instanceof Error) throw new Error(res)
         window.alertify.success('Logged in successfully')
         this.loading = false
+        // panelbear('track', 'TEST')
+
         this.$router.replace('/')
       } catch (error) {
         console.log(error)

@@ -178,6 +178,8 @@ export default {
         if (res instanceof Error) throw new Error(res)
         this.loading = false
         window.alertify.success('Feedback Received')
+        panelbear('track', 'NEW_REVIEW_SUBMITTED')
+
         this.$router.replace(this.$route.path)
       } catch (error) {
         log.error(error)

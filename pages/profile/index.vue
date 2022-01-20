@@ -519,6 +519,8 @@ export default {
               this.resetLocalState()
               await this.$auth.fetchUser()
               window.alertify.success('Profile successfully Deleted')
+              panelbear('track', 'USER_REMOVED_PROFILE')
+
               this.loading = false
               this.step = 0
             } catch (error) {
@@ -554,6 +556,8 @@ export default {
           await this.$auth.fetchUser()
           window.alertify.success('Profile successfully added')
           this.getUser()
+          panelbear('track', 'USER_ADDED_NEW_PROFILE')
+
           this.loading = false
           this.step = 0
         } catch (error) {

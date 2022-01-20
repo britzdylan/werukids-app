@@ -86,6 +86,8 @@ export default {
         `werukids-data-${new Date().toISOString()}-${this.$auth.user._id}.json`
       )
       dlAnchorElem.click()
+      panelbear('track', 'USER_EXPORTED_ACCOUNT_DATA)')
+
       this.loading = false
     },
   },
